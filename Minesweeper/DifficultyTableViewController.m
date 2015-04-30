@@ -21,7 +21,7 @@
     cell.selected = YES;
     
     NSArray *difficulty;
-    if ([cell.textLabel.text isEqualToString:@"Medium"]) {
+    if ([cell.textLabel.text isEqualToString:@"Normal"]) {
         difficulty = [[NSArray alloc]initWithObjects:@16, @16, @40, nil];
         
     } else if ([cell.textLabel.text isEqualToString: @"Easy"]){

@@ -81,7 +81,9 @@
         statsObject = [NSEntityDescription insertNewObjectForEntityForName:@"GameStats" inManagedObjectContext:context];
         [statsObject setValue:[stats valueForKey:keyDifficulty] forKey:keyDifficulty];
 
-        if ([keyDifficulty isEqualToString:@"Medium"]) {
+        if ([keyDifficulty isEqualToString:@"Easy"]) {
+            [statsObject setValue:[NSNumber numberWithInteger:0] forKey:keySortOrder];
+        }else if ([keyDifficulty isEqualToString:@"Normal"]) {
             [statsObject setValue:[NSNumber numberWithInteger:1] forKey:keySortOrder];
         }else if ([keyDifficulty isEqualToString:@"Hard"]){
             [statsObject setValue:[NSNumber numberWithInteger:2] forKey:keySortOrder];
@@ -90,7 +92,7 @@
 
     /*
      When a game ends, need to record:
-     0. Difficulty?? (easy, medium, or hard?)
+     0. Difficulty?? (easy, normal, or hard?)
      1. Game played++
      2. exploration percentage
      3. Win?
@@ -214,6 +216,7 @@
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     NSManagedObjectContext *context = [appDelegate managedObjectContext];
     NSFetchRequest *request = [[NSFetchRequest alloc]initWithEntityName:@"GameStats"];
+    request.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:keySortOrder ascending:YES]];
     
     NSError *error;
     NSArray *objects = [context executeFetchRequest:request error:&error];
@@ -222,12 +225,13 @@
     }
     
     if ([objects count] < 3) {
-        NSPredicate *predicate;
         NSArray *diffArray = [NSArray arrayWithObjects:@"Easy", @"Normal", @"Hard", nil];
+        NSPredicate *predicate;
         for (int i = 0; i < 3; i++) {
             request = [[NSFetchRequest alloc]initWithEntityName:@"GameStats"];
             predicate = [NSPredicate predicateWithFormat:@"(%K = %@)",keyDifficulty , diffArray[i]];
             [request setPredicate:predicate];
+            request.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:keySortOrder ascending:YES]];
             
             objects = [context executeFetchRequest:request error:&error];
             if (!objects) {
@@ -242,12 +246,15 @@
             }
         }
         
-        request = [[NSFetchRequest alloc]initWithEntityName:@"GameStats"];
         objects = [context executeFetchRequest:request error:&error];
         if (!objects) {
             NSLog(@"Core Data didn't load");
         }
 
+    }
+    
+    for (int i = 0; i < objects.count; i++) {
+        NSLog(@"%@", [objects[i] valueForKey:keyDifficulty]);
     }
     return objects;
 }

@@ -91,7 +91,7 @@
     NSLog(@"rows: %ld, cols: %ld, mines: %ld", self.totalRows, self.totalColumns, self.totMines);
     
     if (numRows == 16 && numCol == 16 && mines == 40) {
-        self.difficulty = @"Medium";
+        self.difficulty = @"Normal";
     }else if (numRows == 9 && numCol == 9 && mines == 10){
         self.difficulty = @"Easy";
     }else if (numRows == 30 && numCol == 16 && mines == 99){

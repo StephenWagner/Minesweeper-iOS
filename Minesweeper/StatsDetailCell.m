@@ -7,6 +7,7 @@
 //
 
 #import "StatsDetailCell.h"
+#import "Constants.h"
 
 @interface StatsDetailCell()
 
@@ -14,5 +15,18 @@
 
 
 @implementation StatsDetailCell
+
+-(void)setAllLabels: (NSManagedObject*)statsObject{    
+    self.fastestTimeLabel.text = [NSString stringWithFormat:@"%f", [[statsObject valueForKey:keyFastest]floatValue]];
+    self.secondFastestLabel.text = [NSString stringWithFormat:@"%f", [[statsObject valueForKey:keySecondFastest] floatValue]];
+    self.thirdFastestLabel.text = [NSString stringWithFormat:@"%f", [[statsObject valueForKey:keyThirdFastest] floatValue]];
+    self.averageWinTimeLabel.text = [NSString stringWithFormat:@"%f", [[statsObject valueForKey:keyAverageWinTime] floatValue]];
+    self.winPercentageLabel.text = [NSString stringWithFormat:@"%f%%", [[statsObject valueForKey:keyWinPercent] floatValue]];
+    self.explorePercentLabel.text = [NSString stringWithFormat:@"%f%%", [[statsObject valueForKey:keyExplorationPercent] floatValue]];
+    self.gamesPlayedLabel.text = [NSString stringWithFormat:@"%ld", [[statsObject valueForKey:keyGamesPlayed] integerValue]];
+    self.gamesWonLabel.text = [NSString stringWithFormat:@"%ld", [[statsObject valueForKey:keyGamesWon] integerValue]];
+    self.longestWinStreakLabel.text = [NSString stringWithFormat:@"%ld", [[statsObject valueForKey:keyLongestWinStreak] integerValue]];
+    self.longestLoseStreakLabel.text = [NSString stringWithFormat:@"%ld", [[statsObject valueForKey:keyLongestLoseStreak] integerValue]];
+}
 
 @end
