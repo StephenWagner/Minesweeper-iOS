@@ -56,7 +56,7 @@
 }
 
 -(BOOL)saveStats: (NSDictionary *)stats{
-    NSLog(@"%@", stats);
+//    NSLog(@"%@", stats);
     
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     NSManagedObjectContext *context = [appDelegate managedObjectContext];
@@ -70,7 +70,7 @@
         NSLog(@"Core Data didn't load");
     }
     
-    NSLog(@"%@", objects);
+//    NSLog(@"%@", objects);
     
     NSManagedObject *statsObject;
 
@@ -141,44 +141,44 @@
         
         //c. average win time
         double statsDouble = [[stats valueForKey:keyTime]doubleValue];
-        double objectDouble = [[statsObject valueForKey:keyAverageWinTime]doubleValue];
-        if (objectDouble) {
-            statsDouble = (objectDouble + statsDouble) / 2;
+        double objectDouble;
+
+        if (statsObject) {
+            objectDouble = [[statsObject valueForKey:keyAverageWinTime]doubleValue];
+
+            if (objectDouble) {
+                statsDouble = (objectDouble + statsDouble) / 2;
+            }
+            [statsObject setValue:[NSNumber numberWithDouble:statsDouble] forKey:keyAverageWinTime];
         }
-        [statsObject setValue:[NSNumber numberWithDouble:statsDouble] forKey:keyAverageWinTime];
         
-        //d. faster than 3rd fastest time?
         statsDouble = [[stats valueForKey:keyTime]doubleValue];
         objectDouble = [[statsObject valueForKey:keyThirdFastest]doubleValue];
         
-        //if the stats don't exist, then make all three the fastest times
-        if (!objectDouble) {
-            [statsObject setValue:[NSNumber numberWithDouble:statsDouble] forKey:keyThirdFastest];
-            [statsObject setValue:[NSNumber numberWithDouble:statsDouble] forKey:keySecondFastest];
-            [statsObject setValue:[NSNumber numberWithDouble:statsDouble] forKey:keyFastest];
-        }
-        
-        if (statsDouble < objectDouble) {
+        //treat a non-existant time as a time that is too big
+        if (statsDouble < objectDouble || !objectDouble) {
             //1. adjust the fastest times
-            double third = statsDouble;
-            double second = [[statsObject valueForKey:keySecondFastest]doubleValue];
-            double first = [[statsObject valueForKey:keyFastest]doubleValue];
-            double temp;
-            
-            if (third < second) {
-                temp = third;
-                third = second;
-                second = temp;
+            if (statsDouble) {
+                double third = statsDouble;
+                double second = [[statsObject valueForKey:keySecondFastest]doubleValue];
+                double first = [[statsObject valueForKey:keyFastest]doubleValue];
+                double temp;
+                
+                if (third < second || !second) {
+                    temp = third;
+                    third = second;
+                    second = temp;
+                }
+                if (second < first || !first) {
+                    temp = second;
+                    second = first;
+                    first = temp;
+                }
+                
+                [statsObject setValue:[NSNumber numberWithDouble:first] forKey:keyFastest];
+                [statsObject setValue:[NSNumber numberWithDouble:second] forKey:keySecondFastest];
+                [statsObject setValue:[NSNumber numberWithDouble:third] forKey:keyThirdFastest];
             }
-            if (second < first) {
-                temp = second;
-                second = first;
-                first = temp;
-            }
-            
-            [statsObject setValue:[NSNumber numberWithDouble:first] forKey:keyFastest];
-            [statsObject setValue:[NSNumber numberWithDouble:second] forKey:keySecondFastest];
-            [statsObject setValue:[NSNumber numberWithDouble:third] forKey:keyThirdFastest];
         }
         
     }else {  //4. Game Lost
@@ -207,8 +207,8 @@
         return YES;
     }
     
+    //will only execute if context didn't save
     NSLog(@"error saving context: %@", [error localizedDescription]);
-    
     return NO;
 }
 
@@ -244,6 +244,10 @@
                 [statsObject setValue:diffArray[i] forKey:keyDifficulty];
                 [statsObject setValue:[NSNumber numberWithInteger:i] forKey:keySortOrder];
             }
+            
+            if (![context save:&error]) {
+                NSLog(@"context failed to load");
+            }
         }
         
         objects = [context executeFetchRequest:request error:&error];
@@ -253,9 +257,6 @@
 
     }
     
-    for (int i = 0; i < objects.count; i++) {
-        NSLog(@"%@", [objects[i] valueForKey:keyDifficulty]);
-    }
     return objects;
 }
 

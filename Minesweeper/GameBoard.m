@@ -84,11 +84,9 @@
     
     for (int i = 0; i < numRows; i++) {
         for (int j = 0; j < numCol; j++) {
-            self.board[i][j]  = [[Cell alloc]init];
+            self.board[i][j]  = [[Cell alloc]initWithRow:i andCol:j];
         }
     }
-    
-    NSLog(@"rows: %ld, cols: %ld, mines: %ld", self.totalRows, self.totalColumns, self.totMines);
     
     if (numRows == 16 && numCol == 16 && mines == 40) {
         self.difficulty = @"Normal";
@@ -435,7 +433,7 @@
     if ([self.timer isValid]) {
         self.endTime = [NSDate timeIntervalSinceReferenceDate];
         self.elapsedTime += self.endTime - self.startTime;
-        [self.timer invalidate];        
+        [self.timer invalidate];
     }
 }
 
@@ -444,7 +442,7 @@
     
     if ([sender.userInfo  isEqual: OFFSETTIMER]) {
         self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(addTime:) userInfo:MAINTIMER repeats:YES];
-        [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+//        [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
     }
 }
 

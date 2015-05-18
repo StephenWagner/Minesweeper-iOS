@@ -22,11 +22,34 @@
 @implementation SettingsTableViewController
 
 -(void)viewDidLoad{
+    [[self tabBarItem] setSelectedImage:[UIImage imageNamed:@"SettingsFilled"]];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-//    self.difficultyLabel.text = [defaults stringForKey:keyDifficulty];
     self.vibrateSwitch.on = [defaults boolForKey:keyVibrate];
     self.quickOpenSwitch.on = [defaults boolForKey:keyQuickOpen];
     self.pressDurationSlider.value = [defaults floatForKey:keyPressLength];
+    
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSArray *diffArray = [defaults valueForKey:keyDifficulty];
+    NSInteger mines = [diffArray[2] integerValue];
+    NSString *diffString;
+    switch (mines) {
+        case 10:
+            diffString = @"Easy";
+            break;
+        case 99:
+            diffString = @"Hard";
+            break;
+        default:
+            diffString = @"Normal";
+            break;
+    }
+    
+    self.difficultyLabel.text = diffString;
+    
 }
 
 -(void)viewWillDisappear:(BOOL)animated {

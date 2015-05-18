@@ -12,12 +12,12 @@
 
 @interface CellButton : UIButton
 
-@property (weak, nonatomic) Cell *cell;
+//@property (weak, nonatomic) Cell *cell;
 @property NSInteger row;
 @property NSInteger col;
 
 -(instancetype)init;
--(instancetype)initWithCell: (Cell*)cell row:(NSInteger)row andCol:(NSInteger)col;
--(void)animateCellButton;
+-(instancetype)initWithCell: (Cell*)cell row:(NSInteger)row col:(NSInteger)col gameOver:(BOOL)gameOver;
+-(void)animateCellButtonWithCell: (Cell*)cell;
 
 @end

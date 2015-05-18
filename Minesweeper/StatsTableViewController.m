@@ -12,17 +12,16 @@
 #import "StatsDetailCell.h"
 #import "GameStats.h"
 
+
 @interface StatsTableViewController()
-
 @property (weak, nonatomic) DataManager *manager;
-//@property (weak, nonatomic) NSArray *objects;
-
 @end
 
 
 @implementation StatsTableViewController
 
--(void)viewDidLoad {    
+-(void)viewDidLoad {
+    [[self tabBarItem] setSelectedImage:[UIImage imageNamed:@"StatsFilled"]];
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     NSManagedObjectContext *context = [appDelegate managedObjectContext];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"GameStats"];
@@ -58,13 +57,13 @@
         GameStats *statsObject;
         for (int i = 0; i < 3; i++) {
             statsObject = [self.fetchedResultsController objectAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:i]];
-            NSLog(@"%@", statsObject.difficulty);
         }
     }
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return [[self.fetchedResultsController sections]count];
+//    return 3;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -72,41 +71,26 @@
 }
 
 -(NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-//    return [self.objects[section] valueForKey:keyDifficulty];
-    NSString *returnString = [[[self.fetchedResultsController sections] objectAtIndex:section]name];
-    return returnString;
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:section];
+    GameStats *statsObject = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    return statsObject.difficulty;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *identifier = @"Stats Detail Cell";
     StatsDetailCell *cell = [self.tableView dequeueReusableCellWithIdentifier:identifier];
-//    NSManagedObject *statsObject = self.objects[indexPath.section];
     GameStats *statsObject = [self.fetchedResultsController objectAtIndexPath:indexPath];
 
     if (!cell){
         cell = [[StatsDetailCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-//        [cell setAllLabels:statsObject];
     }
 
-    NSLog(@"fastest: %f", [[statsObject valueForKey:keyFastest]floatValue]);
-//    NSLog(@"%@", self.objects[0]);
-//    cell.fastestTimeLabel.text = [NSString stringWithFormat:@"%f", [[statsObject valueForKey:keyFastest]floatValue]];
-//    cell.secondFastestLabel.text = [NSString stringWithFormat:@"%f", [[statsObject valueForKey:keySecondFastest] floatValue]];
-//    cell.thirdFastestLabel.text = [NSString stringWithFormat:@"%f", [[statsObject valueForKey:keyThirdFastest] floatValue]];
-//    cell.averageWinTimeLabel.text = [NSString stringWithFormat:@"%f", [[statsObject valueForKey:keyAverageWinTime] floatValue]];
-//    cell.winPercentageLabel.text = [NSString stringWithFormat:@"%f%%", [[statsObject valueForKey:keyWinPercent] floatValue]];
-//    cell.explorePercentLabel.text = [NSString stringWithFormat:@"%f%%", [[statsObject valueForKey:keyExplorationPercent] floatValue]];
-//    cell.gamesPlayedLabel.text = [NSString stringWithFormat:@"%ld", [[statsObject valueForKey:keyGamesPlayed] integerValue]];
-//    cell.gamesWonLabel.text = [NSString stringWithFormat:@"%ld", [[statsObject valueForKey:keyGamesWon] integerValue]];
-//    cell.longestWinStreakLabel.text = [NSString stringWithFormat:@"%ld", [[statsObject valueForKey:keyLongestWinStreak] integerValue]];
-//    cell.longestLoseStreakLabel.text = [NSString stringWithFormat:@"%ld", [[statsObject valueForKey:keyLongestLoseStreak] integerValue]];
-
-    cell.fastestTimeLabel.text = [NSString stringWithFormat:@"%@", statsObject.fastestWin];
-    cell.secondFastestLabel.text = [NSString stringWithFormat:@"%@", statsObject.secondFastestWin];
-    cell.thirdFastestLabel.text = [NSString stringWithFormat:@"%@", statsObject.thirdFastestWin];
-    cell.averageWinTimeLabel.text = [NSString stringWithFormat:@"%@", statsObject.averageWinTime];
-    cell.winPercentageLabel.text = [NSString stringWithFormat:@"%@", statsObject.winPercentage];
-    cell.explorePercentLabel.text = [NSString stringWithFormat:@"%@", statsObject.explorationPercentage];
+    cell.fastestTimeLabel.text = [NSString stringWithFormat:@"%.3f", [statsObject.fastestWin doubleValue]];
+    cell.secondFastestLabel.text = [NSString stringWithFormat:@"%.3f", [statsObject.secondFastestWin doubleValue]];
+    cell.thirdFastestLabel.text = [NSString stringWithFormat:@"%.3f", [statsObject.thirdFastestWin doubleValue]];
+    cell.averageWinTimeLabel.text = [NSString stringWithFormat:@"%.3f", [statsObject.averageWinTime doubleValue]];
+    cell.winPercentageLabel.text = [NSString stringWithFormat:@"%.2f%%", [statsObject.winPercentage floatValue]];
+    cell.explorePercentLabel.text = [NSString stringWithFormat:@"%.2f%%", [statsObject.explorationPercentage floatValue]];
     cell.gamesPlayedLabel.text = [NSString stringWithFormat:@"%@", statsObject.gamesPlayed];
     cell.gamesWonLabel.text = [NSString stringWithFormat:@"%@", statsObject.gamesWon];
     cell.longestWinStreakLabel.text = [NSString stringWithFormat:@"%@", statsObject.longestWinStreak];

@@ -11,24 +11,16 @@
 
 @interface Cell()
 
-//@property (nonatomic) BOOL mined;
-//@property (nonatomic) BOOL hidden;
-//@property (nonatomic) BOOL flagged;
-//@property (nonatomic) BOOL blown;
-//@property (nonatomic) int minesClose;
-//@property (strong, nonatomic) UIImage *image;
-//@property (strong, nonatomic) NSString *buttonTitle;
-
 @end
 
 
 @implementation Cell
 
--(instancetype)init{
-    return [self initWithImageName:@"CellHidden"];
+-(instancetype)initWithRow:(NSInteger)row andCol:(NSInteger)col {
+    return [self initWithImageName:@"CellHidden" andRow:row andCol:col];
 }
 
--(instancetype)initWithImageName: (NSString*)imgName{
+-(instancetype)initWithImageName: (NSString*)imgName andRow:(NSInteger)row andCol:(NSInteger)col{
     if(self = [super init]){
         self.mined = NO;
         self.hidden = YES;
@@ -37,6 +29,8 @@
         self.blown = NO;
         self.image = [UIImage imageNamed:imgName];
         self.buttonTitle = @"";
+        self.row = row;
+        self.col = col;
     }
     return self;
 }

@@ -18,8 +18,10 @@
 @property (nonatomic) int minesClose;
 @property (strong, nonatomic) UIImage *image;
 @property (strong, nonatomic) NSString *buttonTitle;
+@property NSInteger row;
+@property NSInteger col;
 
--(instancetype)init;
--(instancetype)initWithImageName: (NSString*) imgName;
+-(instancetype)initWithRow:(NSInteger)row andCol:(NSInteger)col;
+-(instancetype)initWithImageName: (NSString*)imgName andRow:(NSInteger)row andCol:(NSInteger)col;
 
 @end

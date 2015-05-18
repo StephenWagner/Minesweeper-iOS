@@ -11,8 +11,8 @@
 #import "GameBoard.h"
 
 @interface CellButton()
-
 @end
+
 
 @implementation
 CellButton
@@ -25,59 +25,56 @@ CellButton
     return self;
 }
 
--(instancetype)initWithCell: (Cell*)cell row:(NSInteger)row andCol:(NSInteger)col{
+-(instancetype)initWithCell: (Cell*)cell row:(NSInteger)row col:(NSInteger)col gameOver:(BOOL)gameOver {
     self = [self initWithFrame:CGRectMake(0, 0, 60, 60)];
-    self.cell = cell;
     self.row = row;
     self.col = col;
-    [self setBackgroundImage:self.cell.image forState:UIControlStateNormal];
-    [self setTitleTextAndColor:self.cell.buttonTitle];
+    [self setBackgroundImage:cell.image forState:UIControlStateNormal];
+    [self setTitleTextAndColor:cell.buttonTitle cell:cell];
     self.adjustsImageWhenHighlighted = NO;
+    if (gameOver) {
+        [self setUserInteractionEnabled:NO];
+    }
 
     return self;
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
+    Cell *cell;
+    if ([object class] == [Cell class]) {
+        cell = object;
+    }
+    if ([object class] == [GameBoard class]) {
+        GameBoard *gameBoard = object;
+        cell = gameBoard.board[self.row][self.col];
+    }
     
     if ([keyPath isEqualToString:keyImage]) {
         [self setBackgroundImage:[change objectForKey:@"new"] forState:UIControlStateNormal];
-        //only make it so a button is not enabled when it has been revealed and has no mines close to it
-        if (self.cell.minesClose == 0 && !self.cell.hidden) {
+
+        if (cell.minesClose == 0 && !cell.hidden) {//disable user interaction when it has been revealed and has no mines close to it
             self.userInteractionEnabled = NO;
         }
     }
     
     if ([keyPath isEqualToString:keyButtonTitle]) {
-//        [self setTitle:self.cell.buttonTitle forState:UIControlStateNormal];
-        [self setTitle:[change objectForKey:@"new"] forState:UIControlStateNormal];
-        [self.titleLabel setFont:[UIFont boldSystemFontOfSize:20]];
-
-        [self setTitleTextAndColor:self.cell.buttonTitle];
+        [self setTitleTextAndColor:cell.buttonTitle cell:cell];
     }
     
     if ([keyPath isEqualToString:keyGameOver]) {
         self.userInteractionEnabled = NO;
-        if ([self.cell mined] && ![self.cell flagged] && !self.cell.blown) {
+        if ([cell mined] && ![cell flagged] && !cell.blown) {
             [self setImage:[UIImage imageNamed:@"CellBomb"] forState:UIControlStateNormal];
         }
-    }
-    
-//    if ([keyPath isEqualToString:keyExploded]) {
-//        Cell *cell = [change objectForKey:@"new"];
-//        
-//        if (cell) {
-//            
-//        }
-//    }
-    
+    }    
 }
 
--(void)setTitleTextAndColor:(NSString*)title{
-    [self setTitle:self.cell.buttonTitle forState:UIControlStateNormal];
+-(void)setTitleTextAndColor:(NSString*)title cell:(Cell*)cell {
+    [self setTitle:cell.buttonTitle forState:UIControlStateNormal];
     [self.titleLabel setFont:[UIFont boldSystemFontOfSize:35]];
     
     //set color of uibutton label
-    switch ([self.cell.buttonTitle integerValue]) {
+    switch ([cell.buttonTitle integerValue]) {
         case 1:
             [self setTitleColor:[UIColor colorWithRed:0/225.0 green:0/225.0 blue:225/225.0 alpha:100] forState:UIControlStateNormal];
             break;
@@ -105,7 +102,6 @@ CellButton
         default:
             break;
     }
-    
 }
 
 - (BOOL)image:(UIImage *)image1 isEqualTo:(UIImage *)image2 or:(UIImage*)image3{
@@ -116,9 +112,9 @@ CellButton
     return [data1 isEqual:data2] || [data1 isEqual:data3];
 }
 
--(void)animateCellButton{
+-(void)animateCellButtonWithCell: (Cell*)cell {
     
-    if (!self.cell.hidden) {
+    if (!cell.hidden) {
         return;
     }
     CGRect regFrame = self.frame;

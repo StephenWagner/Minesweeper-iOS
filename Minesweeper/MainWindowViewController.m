@@ -53,7 +53,6 @@
     self.gameBoard = [dataManager loadGame];
 
     if (self.gameBoard != nil) {
-        NSLog(@"Loaded board Rows: %ld, and Col: %ld", self.gameBoard.totalRows, self.gameBoard.totalColumns);
         [self makeBoard];
     }else{
         [self newGameButtonPressed:nil];
@@ -63,6 +62,10 @@
 -(void)viewWillAppear:(BOOL)animated{
     [self makeBoardAppearance];
 }
+-(void)viewWillDisappear:(BOOL)animated{
+    [self.gameBoard stopTimer];
+    [super viewWillDisappear:animated];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -71,10 +74,10 @@
 
 -(void)appWillResignActive:(NSNotification*)note {
     NSLog(@"app will resign active");
-//    self.splashView = [[UIImageView alloc]initWithFrame:[self.view frame]];
-//    [self.splashView setImage:[UIImage imageNamed:@"CellHidden"]];
-//    [self.view addSubview:self.splashView];
-//    [self.view bringSubviewToFront:self.splashView];
+    self.splashView = [[UIImageView alloc]initWithFrame:[self.view frame]];
+    [self.splashView setImage:[UIImage imageNamed:@"CellHidden"]];
+    [self.view addSubview:self.splashView];
+    [self.view bringSubviewToFront:self.splashView];
     
 //    [self.buttonView setHidden:YES];
     [self.scrollView setHidden:YES];
@@ -132,10 +135,10 @@
         
     for (int i = 0; i < self.gameBoard.totalRows; i++) {
         for (int j = 0; j < self.gameBoard.totalColumns; j++) {
-            CellButton *btn = [[CellButton alloc]initWithCell:self.gameBoard.board[i][j] row:i andCol:j];
+            CellButton *btn = [[CellButton alloc]initWithCell:self.gameBoard.board[i][j] row:i col:j gameOver:self.gameBoard.gameOver];
    
             [self.buttonView addSubview:btn];
-            [btn setFrame:CGRectMake(j*60+15, i*60+15, 60, 60)];
+            [btn setFrame:CGRectMake(j*60+30, i*60+30, 60, 60)];
             [btn addTarget:self action:@selector(cellButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
             UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(longpress:)];
             longPress.minimumPressDuration = [[[NSUserDefaults standardUserDefaults]objectForKey:keyPressLength] floatValue];
@@ -145,7 +148,6 @@
             [self.gameBoard.board[i][j] addObserver:btn forKeyPath:keyImage options:NSKeyValueObservingOptionNew context:nil];
             [self.gameBoard.board[i][j] addObserver:btn forKeyPath:keyButtonTitle options:NSKeyValueObservingOptionNew context:nil];
             [self.gameBoard addObserver:btn forKeyPath:keyGameOver options:NSKeyValueObservingOptionNew context:nil];
-//            [self.gameBoard addObserver:btn forKeyPath:keyExploded options:NSKeyValueObservingOptionNew context:nil];
             
         }
     }
@@ -183,11 +185,17 @@
     
     //remove all buttons (remove observers first)
     if (self.buttonView) {
+        NSInteger r;
+        NSInteger c;
+        Cell *cell;
         
         for(CellButton *subview in [self.buttonView subviews]) {
             if ([subview isKindOfClass:[CellButton class]]) {
-                [subview.cell removeObserver:subview forKeyPath:keyImage];
-                [subview.cell removeObserver:subview forKeyPath:keyButtonTitle];
+                r = subview.row;
+                c = subview.col;
+                cell = self.gameBoard.board[r][c];
+                [cell removeObserver:subview forKeyPath:keyImage];
+                [cell removeObserver:subview forKeyPath:keyButtonTitle];
                 [self.gameBoard removeObserver:subview forKeyPath:keyGameOver];
                 [subview removeFromSuperview];
             }
@@ -230,8 +238,10 @@
         //check to make sure the longPress came from a CellButton
         if (sender.view.class == [CellButton class]) {
             CellButton *btn = (CellButton *)sender.view;
+            Cell *cell = self.gameBoard.board[btn.row][btn.col];
             [self.gameBoard toggleFlagWithRow:btn.row andColumn:btn.col];
-            [btn animateCellButton];
+
+            [btn animateCellButtonWithCell:cell];
         }
     }
     if (sender.state == UIGestureRecognizerStateEnded) {
@@ -264,11 +274,6 @@
     }
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    if ([segue.identifier  isEqual: @"MenuSegue"]){
-        [self.gameBoard stopTimer];
-    }
-}
 
 -(NSDictionary*)statsToSaveWithWinner: (BOOL)winner{
     NSDictionary *statsToSave = @{
@@ -294,6 +299,7 @@
 }
 
 -(void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale{
+    NSLog(@"%@", view);
     
 }
 
