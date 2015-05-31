@@ -36,6 +36,17 @@
 }
 
 -(void)encodeWithCoder:(NSCoder *)encoder{
+    /*
+     @property (nonatomic) BOOL mined;
+     @property (nonatomic) BOOL hidden;
+     @property (nonatomic) BOOL flagged;
+     @property (nonatomic) BOOL blown;
+     @property (nonatomic) int minesClose;
+     @property (strong, nonatomic) UIImage *image;
+     @property (strong, nonatomic) NSString *buttonTitle;
+     @property NSInteger row;
+     @property NSInteger col;
+     */
     [encoder encodeBool:self.mined forKey:keyMined];
     [encoder encodeBool:self.hidden forKey:keyHidden];
     [encoder encodeBool:self.flagged forKey:keyFlagged];
@@ -43,17 +54,32 @@
     [encoder encodeInt:self.minesClose forKey:keyMinesClose];
     [encoder encodeObject:UIImagePNGRepresentation(self.image) forKey:keyImage];
     [encoder encodeObject:self.buttonTitle forKey:keyButtonTitle];
+    [encoder encodeInteger:self.row forKey:keyRow];
+    [encoder encodeInteger:self.col forKey:keyCol];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)decoder{
     if (self = [super init]) {
+        /*
+         @property (nonatomic) BOOL mined;
+         @property (nonatomic) BOOL hidden;
+         @property (nonatomic) BOOL flagged;
+         @property (nonatomic) BOOL blown;
+         @property (nonatomic) int minesClose;
+         @property (strong, nonatomic) UIImage *image;
+         @property (strong, nonatomic) NSString *buttonTitle;
+         @property NSInteger row;
+         @property NSInteger col;
+         */
         self.mined = [decoder decodeBoolForKey:keyMined];
         self.hidden = [decoder decodeBoolForKey:keyHidden];
         self.flagged = [decoder decodeBoolForKey:keyFlagged];
-        self.minesClose = [decoder decodeIntForKey:keyMinesClose];
         self.blown = [decoder decodeBoolForKey:keyBlown];
+        self.minesClose = [decoder decodeIntForKey:keyMinesClose];
         self.image = [UIImage imageWithData:[decoder decodeObjectForKey:keyImage]];
         self.buttonTitle = [decoder decodeObjectForKey:keyButtonTitle];
+        self.row = [decoder decodeIntegerForKey:keyRow];
+        self.col = [decoder decodeIntegerForKey:keyCol];
     }
     return self;
 }

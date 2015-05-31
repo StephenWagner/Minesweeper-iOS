@@ -39,7 +39,11 @@
  *            Total number of mines you want in your new board.
  */
 -(instancetype) initWithRows: (NSInteger)row andColumns: (NSInteger)col andNumberOfMines: (NSInteger)mines{
-    [self newGameWithNumberOfRows:row andColumns:col andMines:mines];
+    self = [super init];
+
+    if (self) {
+        [self newGameWithNumberOfRows:row andColumns:col andMines:mines];
+    }
     return self;
 }
 
@@ -420,45 +424,47 @@
 #pragma mark - Timer Functions
 -(void)startTimerWithOffset: (BOOL)doOffset{
     if (doOffset) {
-        self.time = (NSInteger)(floor(self.elapsedTime));
-        self.timer = [NSTimer scheduledTimerWithTimeInterval: 1 - (self.elapsedTime - floor(self.elapsedTime)) target:self selector:@selector((addTime:)) userInfo:OFFSETTIMER repeats:NO];
+        self.offsetTime = self.elapsedTime;
     }else{
-        self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(addTime:) userInfo:MAINTIMER repeats:YES];
+        self.offsetTime = self.elapsedTime = 0;
     }
-    [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+    self.time = (int)self.elapsedTime;
+    
     self.startTime = [NSDate timeIntervalSinceReferenceDate];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:.2 target:self selector:@selector(addTime:) userInfo:MAINTIMER repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
 }
 
 -(void)stopTimer{
     if ([self.timer isValid]) {
-        self.endTime = [NSDate timeIntervalSinceReferenceDate];
-        self.elapsedTime += self.endTime - self.startTime;
+        self.elapsedTime = [self calculateElapsedTime];
         [self.timer invalidate];
     }
 }
 
 -(void)addTime: (NSTimer *)sender{
-    self.time++;
-    
-    if ([sender.userInfo  isEqual: OFFSETTIMER]) {
-        self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(addTime:) userInfo:MAINTIMER repeats:YES];
-//        [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
-    }
+    self.elapsedTime = [self calculateElapsedTime];
+    self.time = (int)self.elapsedTime;
+//    NSLog(@"timeElapsed: %lf, offsetTime: %lf time: %d", self.elapsedTime, self.offsetTime, (int)self.elapsedTime);
+}
+
+-(NSTimeInterval)calculateElapsedTime{
+    return [NSDate timeIntervalSinceReferenceDate] - self.startTime + self.offsetTime;
 }
 
 #pragma mark - Encoding functions
 -(void)encodeWithCoder:(NSCoder *)encoder{
-    [encoder encodeBool:self.firstClick forKey:keyFirstClick];
-    [encoder encodeBool:self.speedyOpenOk forKey:keySpeedyOpenOK];
     [encoder encodeInteger:self.totalRows forKey:keyTotalRows];
     [encoder encodeInteger:self.totalColumns forKey:keyTotalColumns];
     [encoder encodeInteger:self.totMines forKey:keyTotalMines];
     [encoder encodeInteger:self.totFlags forKey:keyTotalFlags];
     [encoder encodeBool:self.gameOver forKey:keyGameOver];
     [encoder encodeObject:self.exploded forKey:keyExploded];
+    [encoder encodeObject:self.board forKey:keyBoard];
+    [encoder encodeBool:self.firstClick forKey:keyFirstClick];
+    [encoder encodeBool:self.speedyOpenOk forKey:keySpeedyOpenOK];
     [encoder encodeDouble:self.elapsedTime forKey:keyElapsedTime];
     [encoder encodeInteger:self.hintsRemaining forKey:keyHintsRemain];
-    [encoder encodeObject:self.board forKey:keyBoard];
 }
 
 - (id)initWithCoder:(NSCoder *)decoder{

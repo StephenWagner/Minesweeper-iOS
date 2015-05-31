@@ -18,12 +18,12 @@
 		DC4BFB4D1AAE3F880062B9B2 /* MinesweeperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DC4BFB4C1AAE3F880062B9B2 /* MinesweeperTests.m */; };
 		DC52B5B11ADA06B100601465 /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC52B5B01ADA06B000601465 /* SettingsTableViewController.m */; };
 		DC646D151ABE543900648CE3 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC646D141ABE543900648CE3 /* iAd.framework */; };
+		DC6860531B1A942400424D22 /* CellButton.m in Sources */ = {isa = PBXBuildFile; fileRef = DC6860521B1A942400424D22 /* CellButton.m */; };
 		DCB831DA1AE8C904008BCF6F /* Minesweeper.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DCB831D81AE8C904008BCF6F /* Minesweeper.xcdatamodeld */; };
 		DCB831EC1AECEB5D008BCF6F /* StatsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DCB831EB1AECEB5D008BCF6F /* StatsTableViewController.m */; };
 		DCB831EF1AEDF6EB008BCF6F /* DifficultyTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DCB831EE1AEDF6EB008BCF6F /* DifficultyTableViewController.m */; };
 		DCB831F21AEF32AE008BCF6F /* GameStats.m in Sources */ = {isa = PBXBuildFile; fileRef = DCB831F11AEF32AE008BCF6F /* GameStats.m */; };
 		DCB831F51AEF8646008BCF6F /* StatsDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DCB831F41AEF8646008BCF6F /* StatsDetailCell.m */; };
-		DCD787E51AC9C31500798707 /* CellButton.m in Sources */ = {isa = PBXBuildFile; fileRef = DCD787E41AC9C31500798707 /* CellButton.m */; };
 		DCD788201ACB7FCD00798707 /* MainWindowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DCD7881F1ACB7FCD00798707 /* MainWindowViewController.m */; };
 		DCDCD9551ABA935A009B5836 /* Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = DCDCD9541ABA935A009B5836 /* Cell.m */; };
 		DCDCD9581ABAA674009B5836 /* GameBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = DCDCD9571ABAA674009B5836 /* GameBoard.m */; };
@@ -60,6 +60,8 @@
 		DC52B5B01ADA06B000601465 /* SettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsTableViewController.m; sourceTree = "<group>"; };
 		DC5322A51AD757CC00EF3895 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		DC646D141ABE543900648CE3 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
+		DC6860511B1A942400424D22 /* CellButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellButton.h; sourceTree = "<group>"; };
+		DC6860521B1A942400424D22 /* CellButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CellButton.m; sourceTree = "<group>"; };
 		DCB831D91AE8C904008BCF6F /* Minesweeper.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Minesweeper.xcdatamodel; sourceTree = "<group>"; };
 		DCB831EA1AECEB5D008BCF6F /* StatsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatsTableViewController.h; sourceTree = "<group>"; };
 		DCB831EB1AECEB5D008BCF6F /* StatsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatsTableViewController.m; sourceTree = "<group>"; };
@@ -69,8 +71,6 @@
 		DCB831F11AEF32AE008BCF6F /* GameStats.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameStats.m; sourceTree = "<group>"; };
 		DCB831F31AEF8646008BCF6F /* StatsDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatsDetailCell.h; sourceTree = "<group>"; };
 		DCB831F41AEF8646008BCF6F /* StatsDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatsDetailCell.m; sourceTree = "<group>"; };
-		DCD787E31AC9C31500798707 /* CellButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellButton.h; sourceTree = "<group>"; };
-		DCD787E41AC9C31500798707 /* CellButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CellButton.m; sourceTree = "<group>"; };
 		DCD7881E1ACB7FCD00798707 /* MainWindowViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainWindowViewController.h; sourceTree = "<group>"; };
 		DCD7881F1ACB7FCD00798707 /* MainWindowViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainWindowViewController.m; sourceTree = "<group>"; };
 		DCDCD9531ABA935A009B5836 /* Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cell.h; sourceTree = "<group>"; };
@@ -179,9 +179,9 @@
 		DCAF084D1AD6105C004ECD40 /* view */ = {
 			isa = PBXGroup;
 			children = (
-				DCD787E31AC9C31500798707 /* CellButton.h */,
-				DCD787E41AC9C31500798707 /* CellButton.m */,
 				DC4BFB3A1AAE3F880062B9B2 /* Main.storyboard */,
+				DC6860511B1A942400424D22 /* CellButton.h */,
+				DC6860521B1A942400424D22 /* CellButton.m */,
 				DCB831F31AEF8646008BCF6F /* StatsDetailCell.h */,
 				DCB831F41AEF8646008BCF6F /* StatsDetailCell.m */,
 			);
@@ -312,10 +312,10 @@
 				DC4BFB331AAE3F880062B9B2 /* AppDelegate.m in Sources */,
 				DC52B5B11ADA06B100601465 /* SettingsTableViewController.m in Sources */,
 				DCB831DA1AE8C904008BCF6F /* Minesweeper.xcdatamodeld in Sources */,
+				DC6860531B1A942400424D22 /* CellButton.m in Sources */,
 				DC1AE5891ACE1797003BDA1E /* MenuTabBarViewController.m in Sources */,
 				DCDCD9581ABAA674009B5836 /* GameBoard.m in Sources */,
 				DCB831EC1AECEB5D008BCF6F /* StatsTableViewController.m in Sources */,
-				DCD787E51AC9C31500798707 /* CellButton.m in Sources */,
 				DCD788201ACB7FCD00798707 /* MainWindowViewController.m in Sources */,
 				DCB831F51AEF8646008BCF6F /* StatsDetailCell.m in Sources */,
 				DCB831EF1AEDF6EB008BCF6F /* DifficultyTableViewController.m in Sources */,

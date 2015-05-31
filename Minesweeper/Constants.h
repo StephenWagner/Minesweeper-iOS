@@ -40,6 +40,8 @@
 #define keyFlagged      @"flagged"
 #define keyBlown        @"blown"
 #define keyMinesClose   @"minesClose"
+#define keyRow          @"row"
+#define keyCol          @"col"
 
 //stored in GameBoard
 #define keyFirstClick   @"firstClick"

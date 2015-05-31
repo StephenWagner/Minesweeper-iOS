@@ -20,7 +20,7 @@
 @property (strong, nonatomic) NSMutableArray* board; //Cells
 @property (strong, nonatomic) NSTimer *timer;
 @property (nonatomic) NSInteger time;
-@property NSTimeInterval startTime, endTime, elapsedTime;
+@property NSTimeInterval startTime, offsetTime, elapsedTime;
 @property (nonatomic) NSInteger hintsRemaining;
 @property NSString *difficulty;
 
