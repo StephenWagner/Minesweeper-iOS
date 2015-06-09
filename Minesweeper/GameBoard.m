@@ -241,7 +241,10 @@
     // recursively reveal all others like it
     if (![self.board[row][col] mined] && [self.board[row][col] minesClose] == 0) {
         [self.board[row][col] setHidden:NO];
+        
+        //################################should be moved to the Controller
         [self.board[row][col] setImage:[UIImage imageNamed:@"CellRevealed"]];
+        //################################
 
         [self revealWithRow:row-1 andCol:col-1];    // above and left
         [self revealWithRow:row-1 andCol:col];      // above
@@ -257,8 +260,11 @@
     // 2. it is hidden, it has one or more mines close to it
     if ([self.board[row][col] minesClose] > 0) {
         [self.board[row][col] setHidden:NO];
+        
+        //################################should be moved to the Controller
         [self.board[row][col] setButtonTitle:[NSString stringWithFormat:@"%d", [self.board[row][col] minesClose]]];
         [self.board[row][col] setImage:[UIImage imageNamed:@"CellRevealed"]];
+        //################################
 
         return YES;
     }
@@ -334,6 +340,115 @@
 }
 
 
+#pragma mark - HINTS
+
+/*!
+ * Gives a hint. If a hint cannot be given, it will return the same row and col that was passed in.
+ *
+ * @param row
+ * @param col
+ * @return a Cell is returned.
+ *      If no hints are remaining, nil will be returned.
+ *      If cell is hidden or a hint is unable to be given, the same cell will be returned as passed in
+ */
+-(Cell*) getSurroundingEmptySpaceHintUsingRow:(NSInteger)row andCol:(NSInteger)col{
+    if (!self.hintsRemaining) {
+        return nil;
+    }
+
+    int lowestMinesClose = 9;
+    Boolean changed = false;
+    
+    Cell *cellForHint = self.board[row][col];
+    Cell *cellToCheck;
+    Cell *rtnCell = cellForHint;
+
+    //make sure the cell is not hidden, otherwise there will be no hint
+    if (!cellForHint.hidden) {
+        
+        //check all surrounding cells
+        for (NSInteger i = row - 1; i <= row + 1; i++) {
+            for (NSInteger j = col - 1; j <= col + 1; j++) {
+
+                //make sure to only check cells that are in-bounds
+                if (![self outOfBoundsWithRow:i andCol:j]) {
+                    cellToCheck = _board[i][j];
+                    
+                    // if cell is hidden, NOT MINED, and the number of mines close is the lowest, set the
+                    if (cellToCheck.hidden && !cellToCheck.mined && cellToCheck.minesClose <= lowestMinesClose) {
+                        lowestMinesClose = cellToCheck.minesClose;
+                        rtnCell = cellToCheck;
+                        changed = YES;
+                    }
+                }
+            }
+        }
+        
+    }
+    
+    if (changed)
+        self.hintsRemaining--;
+    
+    return rtnCell;
+}
+
+
+/*!
+ * Gives a hint. If a hint cannot be given, it will return the same row and col that was passed in.
+ *
+ * @param row
+ * @param col
+ * @return a Cell is returned.
+ *      If no hints are remaining, nil will be returned.
+ *      If cell is hidden or unable to be given, the same cell will be returned as passed in
+ */
+-(Cell*)getSurroundingMinedSpaceHintUsingRow:(NSInteger)row andCol:(NSInteger)col{
+    if (!self.hintsRemaining) {
+        return nil;
+    }
+    
+    int lowestMinesClose = 9;
+    int curCellMinesClose = 9;
+    Boolean changed = false;
+    
+    Cell *cellForHint = self.board[row][col];
+    Cell *cellToCheck;
+    Cell *rtnCell = cellForHint;
+    
+    //make sure the cell is not hidden, otherwise there will be no hint
+    if (!cellForHint.hidden) {
+        
+        //check all surrounding cells
+        for (NSInteger i = row - 1; i <= row + 1; i++) {
+            for (NSInteger j = col - 1; j <= col + 1; j++) {
+                
+                //make sure to only check cells that are in-bounds
+                if (![self outOfBoundsWithRow:i andCol:j]) {
+                    cellToCheck = _board[i][j];
+                    
+                    
+                    // if cell MINED, and the number of mines close is the lowest, set the
+                    if (cellToCheck.hidden && cellToCheck.mined) {
+                        curCellMinesClose = [self minesCloseWithRow:i andCol:j];
+                        
+                        //if the number of mines close is the lowest, set the
+                        if (curCellMinesClose <= lowestMinesClose) {
+                            lowestMinesClose = cellToCheck.minesClose;
+                            rtnCell = cellToCheck;
+                            changed = YES;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    if (changed)
+        self.hintsRemaining--;
+    
+    return rtnCell;
+}
+
 //============================================================
 #pragma mark - End of Game Behavior
 /**
@@ -374,13 +489,20 @@
 -(void)gameOverWithRow: (NSInteger)row andCol: (NSInteger)col{
     self.exploded = self.board[row][col];
     [self.board[row][col] setBlown:YES];
+    
+    //################################should be moved to the controller
     [self.board[row][col] setImage:[UIImage imageNamed:@"CellExploded"]];
+    //################################
+
     self.gameOver = YES;
     
+    //################################possibly this whole thing should be moved to the controller
     for (int i = 0; i < self.totalRows; i++)
         for (int j = 0; j < self.totalColumns; j++) {
             if ([self.board[i][j] flagged] && ![self.board[i][j] mined]) {
+                //################################should be moved to the controller
                 [self.board[i][j] setImage:[UIImage imageNamed:@"CellFlaggedIncorrectly"]];
+                //################################
             }
         }
 

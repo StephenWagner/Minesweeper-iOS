@@ -17,8 +17,11 @@
 		DC4BFB411AAE3F880062B9B2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = DC4BFB3F1AAE3F880062B9B2 /* LaunchScreen.xib */; };
 		DC4BFB4D1AAE3F880062B9B2 /* MinesweeperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DC4BFB4C1AAE3F880062B9B2 /* MinesweeperTests.m */; };
 		DC52B5B11ADA06B100601465 /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC52B5B01ADA06B000601465 /* SettingsTableViewController.m */; };
+		DC60AEDA1B1E75FD008EDBB8 /* AdBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DC60AED91B1E75FD008EDBB8 /* AdBannerDelegate.m */; };
 		DC646D151ABE543900648CE3 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC646D141ABE543900648CE3 /* iAd.framework */; };
 		DC6860531B1A942400424D22 /* CellButton.m in Sources */ = {isa = PBXBuildFile; fileRef = DC6860521B1A942400424D22 /* CellButton.m */; };
+		DCB309881B21183800E12D7C /* HintPopUpMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = DCB309871B21183800E12D7C /* HintPopUpMenuView.m */; };
+		DCB3098B1B24CD4B00E12D7C /* MinesweeperNavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DCB3098A1B24CD4B00E12D7C /* MinesweeperNavViewController.m */; };
 		DCB831DA1AE8C904008BCF6F /* Minesweeper.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DCB831D81AE8C904008BCF6F /* Minesweeper.xcdatamodeld */; };
 		DCB831EC1AECEB5D008BCF6F /* StatsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DCB831EB1AECEB5D008BCF6F /* StatsTableViewController.m */; };
 		DCB831EF1AEDF6EB008BCF6F /* DifficultyTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DCB831EE1AEDF6EB008BCF6F /* DifficultyTableViewController.m */; };
@@ -59,9 +62,15 @@
 		DC52B5AF1ADA06B000601465 /* SettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsTableViewController.h; sourceTree = "<group>"; };
 		DC52B5B01ADA06B000601465 /* SettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsTableViewController.m; sourceTree = "<group>"; };
 		DC5322A51AD757CC00EF3895 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		DC60AED81B1E75FD008EDBB8 /* AdBannerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdBannerDelegate.h; sourceTree = "<group>"; };
+		DC60AED91B1E75FD008EDBB8 /* AdBannerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdBannerDelegate.m; sourceTree = "<group>"; };
 		DC646D141ABE543900648CE3 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		DC6860511B1A942400424D22 /* CellButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellButton.h; sourceTree = "<group>"; };
 		DC6860521B1A942400424D22 /* CellButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CellButton.m; sourceTree = "<group>"; };
+		DCB309861B21183800E12D7C /* HintPopUpMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HintPopUpMenuView.h; sourceTree = "<group>"; };
+		DCB309871B21183800E12D7C /* HintPopUpMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HintPopUpMenuView.m; sourceTree = "<group>"; };
+		DCB309891B24CD4B00E12D7C /* MinesweeperNavViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MinesweeperNavViewController.h; sourceTree = "<group>"; };
+		DCB3098A1B24CD4B00E12D7C /* MinesweeperNavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MinesweeperNavViewController.m; sourceTree = "<group>"; };
 		DCB831D91AE8C904008BCF6F /* Minesweeper.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Minesweeper.xcdatamodel; sourceTree = "<group>"; };
 		DCB831EA1AECEB5D008BCF6F /* StatsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatsTableViewController.h; sourceTree = "<group>"; };
 		DCB831EB1AECEB5D008BCF6F /* StatsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatsTableViewController.m; sourceTree = "<group>"; };
@@ -179,6 +188,8 @@
 		DCAF084D1AD6105C004ECD40 /* view */ = {
 			isa = PBXGroup;
 			children = (
+				DCB309861B21183800E12D7C /* HintPopUpMenuView.h */,
+				DCB309871B21183800E12D7C /* HintPopUpMenuView.m */,
 				DC4BFB3A1AAE3F880062B9B2 /* Main.storyboard */,
 				DC6860511B1A942400424D22 /* CellButton.h */,
 				DC6860521B1A942400424D22 /* CellButton.m */,
@@ -191,8 +202,12 @@
 		DCAF084E1AD61064004ECD40 /* controller */ = {
 			isa = PBXGroup;
 			children = (
+				DCB309891B24CD4B00E12D7C /* MinesweeperNavViewController.h */,
+				DCB3098A1B24CD4B00E12D7C /* MinesweeperNavViewController.m */,
 				DCD7881E1ACB7FCD00798707 /* MainWindowViewController.h */,
 				DCD7881F1ACB7FCD00798707 /* MainWindowViewController.m */,
+				DC60AED81B1E75FD008EDBB8 /* AdBannerDelegate.h */,
+				DC60AED91B1E75FD008EDBB8 /* AdBannerDelegate.m */,
 				DC1AE5871ACE1797003BDA1E /* MenuTabBarViewController.h */,
 				DC1AE5881ACE1797003BDA1E /* MenuTabBarViewController.m */,
 				DC52B5AF1ADA06B000601465 /* SettingsTableViewController.h */,
@@ -309,8 +324,10 @@
 			files = (
 				DCDCD9551ABA935A009B5836 /* Cell.m in Sources */,
 				DCB831F21AEF32AE008BCF6F /* GameStats.m in Sources */,
+				DC60AEDA1B1E75FD008EDBB8 /* AdBannerDelegate.m in Sources */,
 				DC4BFB331AAE3F880062B9B2 /* AppDelegate.m in Sources */,
 				DC52B5B11ADA06B100601465 /* SettingsTableViewController.m in Sources */,
+				DCB309881B21183800E12D7C /* HintPopUpMenuView.m in Sources */,
 				DCB831DA1AE8C904008BCF6F /* Minesweeper.xcdatamodeld in Sources */,
 				DC6860531B1A942400424D22 /* CellButton.m in Sources */,
 				DC1AE5891ACE1797003BDA1E /* MenuTabBarViewController.m in Sources */,
@@ -321,6 +338,7 @@
 				DCB831EF1AEDF6EB008BCF6F /* DifficultyTableViewController.m in Sources */,
 				DC1D1E841AE4951700236D62 /* DataManager.m in Sources */,
 				DC4BFB301AAE3F880062B9B2 /* main.m in Sources */,
+				DCB3098B1B24CD4B00E12D7C /* MinesweeperNavViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

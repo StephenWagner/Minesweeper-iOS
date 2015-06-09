@@ -15,7 +15,6 @@
 
 @end
 
-
 @implementation DataManager
 
 + (instancetype)sharedInstance

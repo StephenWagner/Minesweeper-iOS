@@ -12,7 +12,6 @@
 @implementation DifficultyTableViewController
 
 -(void)viewDidLoad {
-    
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

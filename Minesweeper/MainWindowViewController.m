@@ -12,6 +12,8 @@
 #import "Constants.h"
 #import <AudioToolbox/AudioServices.h>
 #import "DataManager.h"
+#import "AdBannerDelegate.h"
+#import "HintPopUpMenuView.h"
 
 @interface MainWindowViewController ()
 
@@ -19,11 +21,15 @@
 @property (weak, nonatomic) IBOutlet UILabel *timerLabel;
 @property (weak, nonatomic) IBOutlet UIButton *StartNewGameButton;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *hintBarButton;
 @property (strong, nonatomic) UIView *buttonView;
 @property (strong, nonatomic) GameBoard *gameBoard;
 @property (strong, nonatomic) UIImageView *splashView;
 @property (strong, nonatomic) NSMutableArray *buttonArray;
+@property BOOL wantEmptySpaceHint;
+@property BOOL wantMinedSpaceHint;
 @property BOOL loadingGame;
+@property (strong, nonatomic) HintPopUpMenuView *menuPopUpView;
 
 @end
 
@@ -46,23 +52,35 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
 
     self.buttonView = [[UIView alloc]init];
-    [self.adBanner setBackgroundColor: [UIColor darkGrayColor]];
+    
     [self.numberOfMinesLabel setFont: [UIFont fontWithName:@"DBLCDTempBlack" size:25]];
     [self.timerLabel setFont: [UIFont fontWithName:@"DBLCDTempBlack" size:25]];
+
+    self.adBanner.backgroundColor = [UIColor lightGrayColor];
+    self.adBanner.delegate = self;
 
     DataManager *dataManager = [DataManager sharedInstance];
     self.gameBoard = [dataManager loadGame];
 
     if (self.gameBoard != nil) {
-        [self makeBoard];
+        [self makeBoardUiAfterModelIsSet];
     }else{
-        [self newGameButtonPressed:nil];
+        [self pressedNewGameButton:nil];
     }
 }
 
 -(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     [self makeBoardAppearance];
 }
+
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    if (self.gameBoard.elapsedTime > 0 && !self.gameBoard.gameOver && ![self.gameBoard winner]) {
+        [self.gameBoard startTimerWithOffset:YES];
+    }
+}
+
 -(void)viewWillDisappear:(BOOL)animated{
     [self.gameBoard stopTimer];
     [super viewWillDisappear:animated];
@@ -90,13 +108,6 @@
     [self.gameBoard stopTimer];
 
     NSLog(@"app did enter background");
-}
-
--(void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-    if (self.gameBoard.elapsedTime > 0 && !self.gameBoard.gameOver && ![self.gameBoard winner]) {
-        [self.gameBoard startTimerWithOffset:YES];
-    }
 }
 
 -(void)appDidBecomeActive:(NSNotification*)note {
@@ -131,8 +142,10 @@
 
 
 #pragma mark - Controller Functions
+#define buttonSize 60
+#define buttonOffset 30
 //makes the game board
--(void)makeBoard{
+-(void)makeBoardUiAfterModelIsSet{
     NSArray *boardSettings = [[NSUserDefaults standardUserDefaults] objectForKey:keyDifficulty];
     NSInteger numRows = [boardSettings[0] integerValue];
     NSInteger numCol = [boardSettings[1] integerValue];
@@ -154,8 +167,9 @@
             self.buttonArray[row][col] = btn;
 
             [self.buttonView addSubview:btn];
-            [btn setFrame:CGRectMake(col*60+30, row*60+30, 60, 60)];
+            [btn setFrame:CGRectMake(col*buttonSize+buttonOffset, row*buttonSize+buttonOffset, buttonSize, buttonSize)];
             [btn setBackgroundImage:cell.image forState:UIControlStateNormal];
+            [btn setUserInteractionEnabled:!_gameBoard.gameOver];
             [self setButtonTitleTextAndColorUsingCell:cell];
             [btn addTarget:self action:@selector(cellButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
             
@@ -180,19 +194,22 @@
 
 -(void)makeBoardAppearance{
     [self.scrollView addSubview:self.buttonView];
-    self.buttonView.frame = CGRectMake(0, 0, self.gameBoard.totalColumns*60+30, self.gameBoard.totalRows*60+30);
+    CGFloat scale = self.scrollView.zoomScale;
+    float width = scale*(self.gameBoard.totalColumns*buttonSize+(2*buttonOffset));
+    float height = scale*(self.gameBoard.totalRows*buttonSize+(2*buttonOffset));
+    self.buttonView.frame = CGRectMake(0, 0, width, height);
     self.scrollView.minimumZoomScale=0.5;
     self.scrollView.maximumZoomScale=2.5;
     self.scrollView.contentSize = self.buttonView.frame.size;
     [self.scrollView setBackgroundColor:[UIColor darkGrayColor]];
     self.scrollView.decelerationRate = UIScrollViewDecelerationRateFast;
     
-    self.numberOfMinesLabel.text = [NSString stringWithFormat:@"%ld", self.gameBoard.totMines - self.gameBoard.totFlags];
-    self.timerLabel.text = [NSString stringWithFormat:@"%ld", self.gameBoard.time];
+    self.numberOfMinesLabel.text = [NSString stringWithFormat:@"%ld", (long)self.gameBoard.totMines - self.gameBoard.totFlags];
+    self.timerLabel.text = [NSString stringWithFormat:@"%ld", (long)self.gameBoard.time];
 
 }
 
-- (IBAction)newGameButtonPressed:(UIButton *)sender {
+- (IBAction)pressedNewGameButton:(UIButton *)sender {
 
     [self.gameBoard stopTimer];
     
@@ -200,24 +217,30 @@
         DataManager *manager = [DataManager sharedInstance];
         [manager saveStats:[self statsToSaveWithWinner:NO]];
     }
+
+    [self createNewGameFromScratch];
+
+}
+
+-(void)createNewGameFromScratch{
     self.gameBoard.time = 0;
     self.gameBoard.elapsedTime = 0;
     
     //remove all buttons (remove observers first)
     if (self.buttonView) {
-
+        
         for (NSArray *array in self.gameBoard.board) {
             for (Cell *cell in array) {
                 [cell removeObserver:self forKeyPath:keyImage];
                 [cell removeObserver:self forKeyPath:keyButtonTitle];
             }
         }
-
+        
         [self.gameBoard removeObserver:self forKeyPath:keyGameOver];
         [self.gameBoard removeObserver:self forKeyPath:keyTotalFlags];
         [self.gameBoard removeObserver:self forKeyPath:keyTime];
         
-
+        
         for(UIButton *subview in [self.buttonView subviews]) {
             if ([subview isMemberOfClass:[UIButton class]]) {
                 [subview removeFromSuperview];
@@ -226,7 +249,6 @@
     }
     
     NSLog(@"done removing cells");
-
     
     NSArray *boardSettings = [[NSUserDefaults standardUserDefaults]objectForKey:keyDifficulty];
     NSLog(@"%@", boardSettings);
@@ -238,13 +260,33 @@
     }
     
     
-    [self makeBoard];
+    [self makeBoardUiAfterModelIsSet];
 }
 
 -(IBAction)cellButtonPressed:(UIButton *)sender {
     NSArray *coords= [self findWhichButton:sender];
     NSInteger row = [coords[0] integerValue];
     NSInteger col = [coords[1] integerValue];
+    
+    if (self.wantEmptySpaceHint) {
+        Cell *hintCell = [self.gameBoard getSurroundingEmptySpaceHintUsingRow:row andCol:col];
+        Cell *pressedCell = self.gameBoard.board[row][col];
+        if (hintCell && hintCell != pressedCell) {
+            hintCell.image = [UIImage imageNamed:@"CellEmptySpaceHint"];
+        }
+        [self toggleHint:&_wantEmptySpaceHint];
+        return;
+    }
+    
+    if (self.wantMinedSpaceHint) {
+        Cell *hintCell = [self.gameBoard getSurroundingMinedSpaceHintUsingRow:row andCol:col];
+        Cell *pressedCell = self.gameBoard.board[row][col];
+        if (hintCell && hintCell != pressedCell) {
+            hintCell.image = [UIImage imageNamed:@"CellMinedSpaceHint"];
+        }
+        [self toggleHint:&_wantMinedSpaceHint];
+        return;
+    }
     
     [self.gameBoard revealWithRow:row andCol:col];
     if (self.gameBoard.time == 0 && self.gameBoard.elapsedTime == 0) {
@@ -320,10 +362,10 @@
 
 
     if ([keyPath isEqualToString:keyTime]) {
-        self.timerLabel.text = [NSString stringWithFormat:@"%ld", self.gameBoard.time];
+        self.timerLabel.text = [NSString stringWithFormat:@"%ld", (long)self.gameBoard.time];
         
     }else if ([keyPath isEqualToString:keyTotalFlags]) {
-        self.numberOfMinesLabel.text = [NSString stringWithFormat:@"%ld", self.gameBoard.totMines - self.gameBoard.totFlags];
+        self.numberOfMinesLabel.text = [NSString stringWithFormat:@"%ld", (long)self.gameBoard.totMines - self.gameBoard.totFlags];
     }
 }
 
@@ -342,9 +384,10 @@
 //Handles the actions when "New Game" is pressed from UIAlert
 -(void)alertView: (UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex == 1) {
-        [self newGameButtonPressed:[alertView.subviews lastObject]];
+        [self pressedNewGameButton:[alertView.subviews lastObject]];
     }
 }
+
 
 
 #pragma mark - CellButton Controller functions
@@ -440,7 +483,43 @@
                          [btn setFrame:regFrame];
                      }
                      completion:nil];
-    
+}
+
+
+#pragma mark - Hint Functions
+- (IBAction)pressedHintButton:(UIBarButtonItem *)sender {
+    if (sender.tintColor != NULL) {
+        BOOL hint = (self.wantEmptySpaceHint)? self.wantEmptySpaceHint: self.wantMinedSpaceHint;
+        [self toggleHint:&hint];
+    }else{
+        self.menuPopUpView = [[HintPopUpMenuView alloc]initWithFrame:self.scrollView.frame emptySpaceHintsRemaining:self.gameBoard.hintsRemaining];
+        [self.view addSubview:self.menuPopUpView];
+        [self.menuPopUpView.emptySpaceHintButton addTarget:self action:@selector(emptySpaceHintButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+        [self.menuPopUpView.minedSpaceHintButton addTarget:self action:@selector(minedSpaceHintButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+        [self.menuPopUpView animateMenuOnScreen];        
+    }
+}
+
+-(void)emptySpaceHintButtonPressed: (UIButton*)sender{
+    NSLog(@"emptySpaceHintButtonPressed");
+    [self.menuPopUpView removeFromSuperview];
+    [self toggleHint:&_wantEmptySpaceHint];
+}
+
+-(void)minedSpaceHintButtonPressed: (UIButton*)sender{
+    NSLog(@"minedSpaceHintButtonPressed");
+    [self.menuPopUpView removeFromSuperview];
+    [self toggleHint:&_wantMinedSpaceHint];
+}
+
+-(void)toggleHint:(BOOL*)hint{
+    if (_hintBarButton.tintColor == NULL) {
+        _hintBarButton.tintColor = [UIColor redColor];
+        *hint = YES;
+    }else{
+        _hintBarButton.tintColor = NULL;
+        *hint = NO;
+    }
 }
 
 
@@ -451,9 +530,11 @@
 }
 
 -(void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale{
-    NSLog(@"%@", view);
-    
+    NSLog(@"\nScale: %f\nView: %@", scale, view);
+    NSLog(@"Scrollview scale: %f", self.scrollView.zoomScale);
 }
+
+
 
 #pragma mark - ADBannerView Delagate Methods
 -(void)bannerViewDidLoadAd:(ADBannerView *)banner{
@@ -463,7 +544,6 @@
         banner.hidden = NO;
     }
 }
-
 
 -(void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error{
     

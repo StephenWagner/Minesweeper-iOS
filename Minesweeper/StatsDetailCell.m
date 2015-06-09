@@ -23,10 +23,10 @@
     self.averageWinTimeLabel.text = [NSString stringWithFormat:@"%f", [[statsObject valueForKey:keyAverageWinTime] floatValue]];
     self.winPercentageLabel.text = [NSString stringWithFormat:@"%f%%", [[statsObject valueForKey:keyWinPercent] floatValue]];
     self.explorePercentLabel.text = [NSString stringWithFormat:@"%f%%", [[statsObject valueForKey:keyExplorationPercent] floatValue]];
-    self.gamesPlayedLabel.text = [NSString stringWithFormat:@"%ld", [[statsObject valueForKey:keyGamesPlayed] integerValue]];
-    self.gamesWonLabel.text = [NSString stringWithFormat:@"%ld", [[statsObject valueForKey:keyGamesWon] integerValue]];
-    self.longestWinStreakLabel.text = [NSString stringWithFormat:@"%ld", [[statsObject valueForKey:keyLongestWinStreak] integerValue]];
-    self.longestLoseStreakLabel.text = [NSString stringWithFormat:@"%ld", [[statsObject valueForKey:keyLongestLoseStreak] integerValue]];
+    self.gamesPlayedLabel.text = [NSString stringWithFormat:@"%ld", (long)[[statsObject valueForKey:keyGamesPlayed] integerValue]];
+    self.gamesWonLabel.text = [NSString stringWithFormat:@"%ld", (long)[[statsObject valueForKey:keyGamesWon] integerValue]];
+    self.longestWinStreakLabel.text = [NSString stringWithFormat:@"%ld", (long)[[statsObject valueForKey:keyLongestWinStreak] integerValue]];
+    self.longestLoseStreakLabel.text = [NSString stringWithFormat:@"%ld", (long)[[statsObject valueForKey:keyLongestLoseStreak] integerValue]];
 }
 
 @end

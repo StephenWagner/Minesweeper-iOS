@@ -34,5 +34,7 @@
 -(void)startTimerWithOffset: (BOOL)doOffset;
 -(void)stopTimer;
 -(float)getPercentFinished;
+-(Cell*) getSurroundingEmptySpaceHintUsingRow:(NSInteger)row andCol:(NSInteger)col;
+-(Cell*)getSurroundingMinedSpaceHintUsingRow:(NSInteger)row andCol:(NSInteger)col;
 
 @end
