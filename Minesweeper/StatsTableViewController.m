@@ -26,7 +26,7 @@
     NSManagedObjectContext *context = [appDelegate managedObjectContext];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"GameStats"];
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:keySortOrder ascending:YES];
-    NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+    NSArray *sortDescriptors = @[sortDescriptor];
     [fetchRequest setSortDescriptors:sortDescriptors];
     
     self.fetchedResultsController = [[NSFetchedResultsController alloc]
@@ -38,7 +38,6 @@
     NSError *error;
     BOOL success = [self.fetchedResultsController performFetch:&error];
     
-    
     if ([[self.fetchedResultsController sections]count] < 3) {
         DataManager *manager = [DataManager sharedInstance];
         [manager getAllStats];
@@ -49,6 +48,7 @@
                                          sectionNameKeyPath:keyDifficulty
                                          cacheName:nil];
 
+        success = [self.fetchedResultsController performFetch:&error];
     }
 
     if (!success) {
@@ -57,13 +57,13 @@
         GameStats *statsObject;
         for (int i = 0; i < 3; i++) {
             statsObject = [self.fetchedResultsController objectAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:i]];
+            NSLog(@"#####: %d", i);
         }
     }
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return [[self.fetchedResultsController sections]count];
-//    return 3;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

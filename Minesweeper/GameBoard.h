@@ -21,8 +21,9 @@
 @property (strong, nonatomic) NSTimer *timer;
 @property (nonatomic) NSInteger time;
 @property NSTimeInterval startTime, offsetTime, elapsedTime;
-@property (nonatomic) NSInteger hintsRemaining;
+//@property (nonatomic) NSInteger hintsRemaining;
 @property NSString *difficulty;
+@property BOOL useQuestionMarks;
 
 -(instancetype) init;
 -(instancetype) initWithRows: (NSInteger)row andColumns: (NSInteger)col andNumberOfMines: (NSInteger)mines;
@@ -34,7 +35,7 @@
 -(void)startTimerWithOffset: (BOOL)doOffset;
 -(void)stopTimer;
 -(float)getPercentFinished;
--(Cell*) getSurroundingEmptySpaceHintUsingRow:(NSInteger)row andCol:(NSInteger)col;
--(Cell*)getSurroundingMinedSpaceHintUsingRow:(NSInteger)row andCol:(NSInteger)col;
+-(Cell*) getSurroundingEmptySpaceHintUsingRow:(NSInteger)row col:(NSInteger)col andHintsRemaining:(NSInteger)hintsRemaining;
+-(Cell*)getSurroundingMinedSpaceHintUsingRow:(NSInteger)row col:(NSInteger)col andHintsRemaining:(NSInteger)hintsRemaining;
 
 @end

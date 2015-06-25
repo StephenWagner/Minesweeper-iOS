@@ -12,6 +12,8 @@
 @property (strong, nonatomic) UIView *menu;
 @property (strong, nonatomic) UILabel *menuLabel;
 @property NSInteger emptySpaceHintsRemaining;
+@property NSInteger minedSpaceHintsRemaining;
+
 @end
 
 @implementation HintPopUpMenuView
@@ -25,11 +27,12 @@
 */
 
 
--(instancetype)initWithFrame:(CGRect)frame emptySpaceHintsRemaining:(NSInteger)emptyHints{
+-(instancetype)initWithFrame:(CGRect)frame emptySpaceHintsRemaining:(NSInteger)emptyHints minedSpaceHintsRemaining: (NSInteger)minedHints{
     self = [super initWithFrame:frame];
     if (self) {
         [self setup];
         _emptySpaceHintsRemaining = emptyHints;
+        _minedSpaceHintsRemaining = minedHints;
     }
     
     return self;
@@ -68,11 +71,13 @@
     [menu addSubview:self.menuLabel];
     [menu addSubview:self.emptySpaceHintButton];
     [menu addSubview:self.minedSpaceHintButton];
+    [menu addSubview:self.buyHintsButton];
 
     //turn autolayout on
     [self.menuLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
     [self.emptySpaceHintButton setTranslatesAutoresizingMaskIntoConstraints:NO];
     [self.minedSpaceHintButton setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.buyHintsButton setTranslatesAutoresizingMaskIntoConstraints:NO];
     
     //menuLabel constraints: create and add
     NSLayoutConstraint *menuLabelCenterXConstraint = [NSLayoutConstraint constraintWithItem:self.menuLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:menu attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0];
@@ -88,6 +93,11 @@
     NSLayoutConstraint *minedHintBtnTopConstraint = [NSLayoutConstraint constraintWithItem:self.minedSpaceHintButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.menuLabel attribute:NSLayoutAttributeBottom multiplier:1.0 constant:25.0];
     NSLayoutConstraint *minedHintBtnHrzContraint = [NSLayoutConstraint constraintWithItem:self.minedSpaceHintButton attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.menuLabel attribute:NSLayoutAttributeRight multiplier:1.0 constant:0];
     [menu addConstraints:@[minedHintBtnTopConstraint, minedHintBtnHrzContraint]];
+    
+    //buyHintsButton constraints: create and add
+    NSLayoutConstraint *buyHintsBtnTopConstraint = [NSLayoutConstraint constraintWithItem:self.buyHintsButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.emptySpaceHintButton attribute:NSLayoutAttributeBottom multiplier:1.0 constant:8.0];
+    NSLayoutConstraint *buyHintsBtnCenterXContraint = [NSLayoutConstraint constraintWithItem:self.buyHintsButton attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:menu attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0];
+    [menu addConstraints:@[buyHintsBtnCenterXContraint, buyHintsBtnTopConstraint]];
     
 //    //menu constraints: create and add
 //    NSLayoutConstraint *menuBottonConstraint = [NSLayoutConstraint constraintWithItem:self.menu attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationLessThanOrEqual toItem:self.emptySpaceHintButton attribute:NSLayoutAttributeBottom multiplier:1.0 constant:20.0];
@@ -116,6 +126,15 @@
     return _minedSpaceHintButton;
 }
 
+-(UIButton*)buyHintsButton{
+    if (!_buyHintsButton) {
+        _buyHintsButton = [[UIButton alloc]init];
+        [_buyHintsButton setTitle:@"Buy Hints" forState:UIControlStateNormal];
+        _buyHintsButton.backgroundColor = [UIColor greenColor];
+        [_buyHintsButton sizeToFit];
+    }
+    return _buyHintsButton;
+}
 -(UILabel*)menuLabel{
     if (!_menuLabel) {
         _menuLabel = [[UILabel alloc]init];
@@ -142,7 +161,7 @@
         
         //number of hints which left in current game
         font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
-        attString = [[NSAttributedString alloc]initWithString:[NSString stringWithFormat:@"Empty-Space: %ld\nMined-Space: %ld", (long)num, (long)num] attributes:@{NSParagraphStyleAttributeName: paragraphStyle, NSFontAttributeName: font, NSForegroundColorAttributeName: white}];
+        attString = [[NSAttributedString alloc]initWithString:[NSString stringWithFormat:@"Empty-Space: %ld\nMined-Space: %ld", (long)self.emptySpaceHintsRemaining, (long)self.minedSpaceHintsRemaining] attributes:@{NSParagraphStyleAttributeName: paragraphStyle, NSFontAttributeName: font, NSForegroundColorAttributeName: white}];
         [mutAttString appendAttributedString:attString];
         
         //set the text in the uilabel

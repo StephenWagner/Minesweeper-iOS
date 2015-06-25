@@ -19,17 +19,20 @@
 #define HARD            30
 #define TOTALHINTS      3
 
-//keys for settings
+//keys for settings/NSUserDefaults
 #define keyDifficulty   @"difficulty"
 #define keyNormal       @"Normal"
 #define keyVibrate      @"vibrate"
+#define keyUseQMarks    @"useQuestionMarks"
 #define keyPressLength  @"pressLength"
 #define keyPortraitLock @"portraitLock"
 #define keyQuickOpen    @"quickOpen"
+#define keyMinedHints   @"minedSpaceHints"
+#define keyEmptyHints   @"emptySpaceHints"
 
 //keys for observations
 #define keyImage        @"image"
-#define keyButtonTitle  @"buttonTitle"
+#define keyCellLabel    @"label"
 #define keyGameOver     @"gameOver"
 #define keyTotalFlags   @"totFlags"
 #define keyTime         @"time"
@@ -60,6 +63,7 @@
 #define keyPercentDone          @"percentFinished"
 #define keyGamesPlayed          @"gamesPlayed"
 #define keyExplorationPercent   @"explorationPercentage"
+#define keyExplorePercentSum    @"explorationPercentageSum"
 #define keyCurrentLoseStreak    @"currentLoseStreak"
 #define keyAverageWinTime       @"averageWinTime"
 #define keyCurrentWinStreak     @"currentWinStreak"

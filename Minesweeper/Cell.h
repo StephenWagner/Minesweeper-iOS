@@ -14,10 +14,11 @@
 @property (nonatomic) BOOL mined;
 @property (nonatomic) BOOL hidden;
 @property (nonatomic) BOOL flagged;
+@property (nonatomic) BOOL questionMarked;
 @property (nonatomic) BOOL blown;
 @property (nonatomic) int minesClose;
 @property (strong, nonatomic) UIImage *image;
-@property (strong, nonatomic) NSString *buttonTitle;
+@property (strong, nonatomic) NSString *label;
 @property NSInteger row;
 @property NSInteger col;
 

@@ -12,7 +12,8 @@
 
 @property (strong, nonatomic) UIButton *emptySpaceHintButton;
 @property (strong, nonatomic) UIButton *minedSpaceHintButton;
+@property (strong, nonatomic) UIButton *buyHintsButton;
 
--(instancetype)initWithFrame:(CGRect)frame emptySpaceHintsRemaining:(NSInteger)emptyHints;
+-(instancetype)initWithFrame:(CGRect)frame emptySpaceHintsRemaining:(NSInteger)emptyHints minedSpaceHintsRemaining: (NSInteger)minedHints;
 -(void)animateMenuOnScreen;
 @end

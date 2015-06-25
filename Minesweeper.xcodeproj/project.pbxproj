@@ -10,6 +10,10 @@
 		DC1AE5891ACE1797003BDA1E /* MenuTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC1AE5881ACE1797003BDA1E /* MenuTabBarViewController.m */; };
 		DC1AE58B1AD35FBD003BDA1E /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DC1AE58A1AD35FBD003BDA1E /* Settings.bundle */; };
 		DC1D1E841AE4951700236D62 /* DataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DC1D1E831AE4951700236D62 /* DataManager.m */; };
+		DC1D73861B328BE3007482A8 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC1D73851B328BE3007482A8 /* StoreKit.framework */; };
+		DC1D73891B328D91007482A8 /* IAPHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DC1D73881B328D91007482A8 /* IAPHelper.m */; };
+		DC1D738C1B33AC52007482A8 /* MinesweeperIAPHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DC1D738B1B33AC52007482A8 /* MinesweeperIAPHelper.m */; };
+		DC1D738F1B33C2A5007482A8 /* HintsInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC1D738E1B33C2A5007482A8 /* HintsInfoViewController.m */; };
 		DC4BFB301AAE3F880062B9B2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DC4BFB2F1AAE3F880062B9B2 /* main.m */; };
 		DC4BFB331AAE3F880062B9B2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DC4BFB321AAE3F880062B9B2 /* AppDelegate.m */; };
 		DC4BFB3C1AAE3F880062B9B2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC4BFB3A1AAE3F880062B9B2 /* Main.storyboard */; };
@@ -19,15 +23,16 @@
 		DC52B5B11ADA06B100601465 /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC52B5B01ADA06B000601465 /* SettingsTableViewController.m */; };
 		DC60AEDA1B1E75FD008EDBB8 /* AdBannerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DC60AED91B1E75FD008EDBB8 /* AdBannerDelegate.m */; };
 		DC646D151ABE543900648CE3 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC646D141ABE543900648CE3 /* iAd.framework */; };
-		DC6860531B1A942400424D22 /* CellButton.m in Sources */ = {isa = PBXBuildFile; fileRef = DC6860521B1A942400424D22 /* CellButton.m */; };
 		DCB309881B21183800E12D7C /* HintPopUpMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = DCB309871B21183800E12D7C /* HintPopUpMenuView.m */; };
 		DCB3098B1B24CD4B00E12D7C /* MinesweeperNavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DCB3098A1B24CD4B00E12D7C /* MinesweeperNavViewController.m */; };
+		DCB3098E1B278B4A00E12D7C /* GameStats.m in Sources */ = {isa = PBXBuildFile; fileRef = DCB3098D1B278B4A00E12D7C /* GameStats.m */; };
 		DCB831DA1AE8C904008BCF6F /* Minesweeper.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DCB831D81AE8C904008BCF6F /* Minesweeper.xcdatamodeld */; };
 		DCB831EC1AECEB5D008BCF6F /* StatsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DCB831EB1AECEB5D008BCF6F /* StatsTableViewController.m */; };
 		DCB831EF1AEDF6EB008BCF6F /* DifficultyTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DCB831EE1AEDF6EB008BCF6F /* DifficultyTableViewController.m */; };
-		DCB831F21AEF32AE008BCF6F /* GameStats.m in Sources */ = {isa = PBXBuildFile; fileRef = DCB831F11AEF32AE008BCF6F /* GameStats.m */; };
 		DCB831F51AEF8646008BCF6F /* StatsDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DCB831F41AEF8646008BCF6F /* StatsDetailCell.m */; };
 		DCD788201ACB7FCD00798707 /* MainWindowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DCD7881F1ACB7FCD00798707 /* MainWindowViewController.m */; };
+		DCDB2E0D1B39267400D8F526 /* HintsPopUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DCDB2E0C1B39267400D8F526 /* HintsPopUpViewController.m */; };
+		DCDB2E0F1B3A14F000D8F526 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCDB2E0E1B3A14F000D8F526 /* Security.framework */; };
 		DCDCD9551ABA935A009B5836 /* Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = DCDCD9541ABA935A009B5836 /* Cell.m */; };
 		DCDCD9581ABAA674009B5836 /* GameBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = DCDCD9571ABAA674009B5836 /* GameBoard.m */; };
 /* End PBXBuildFile section */
@@ -48,6 +53,13 @@
 		DC1AE58A1AD35FBD003BDA1E /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		DC1D1E821AE4951700236D62 /* DataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataManager.h; sourceTree = "<group>"; };
 		DC1D1E831AE4951700236D62 /* DataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataManager.m; sourceTree = "<group>"; };
+		DC1D73851B328BE3007482A8 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		DC1D73871B328D91007482A8 /* IAPHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAPHelper.h; sourceTree = "<group>"; };
+		DC1D73881B328D91007482A8 /* IAPHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAPHelper.m; sourceTree = "<group>"; };
+		DC1D738A1B33AC52007482A8 /* MinesweeperIAPHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MinesweeperIAPHelper.h; sourceTree = "<group>"; };
+		DC1D738B1B33AC52007482A8 /* MinesweeperIAPHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MinesweeperIAPHelper.m; sourceTree = "<group>"; };
+		DC1D738D1B33C2A5007482A8 /* HintsInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HintsInfoViewController.h; sourceTree = "<group>"; };
+		DC1D738E1B33C2A5007482A8 /* HintsInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HintsInfoViewController.m; sourceTree = "<group>"; };
 		DC4BFB2A1AAE3F880062B9B2 /* Minesweeper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Minesweeper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC4BFB2E1AAE3F880062B9B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DC4BFB2F1AAE3F880062B9B2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -65,23 +77,24 @@
 		DC60AED81B1E75FD008EDBB8 /* AdBannerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdBannerDelegate.h; sourceTree = "<group>"; };
 		DC60AED91B1E75FD008EDBB8 /* AdBannerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdBannerDelegate.m; sourceTree = "<group>"; };
 		DC646D141ABE543900648CE3 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
-		DC6860511B1A942400424D22 /* CellButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellButton.h; sourceTree = "<group>"; };
-		DC6860521B1A942400424D22 /* CellButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CellButton.m; sourceTree = "<group>"; };
 		DCB309861B21183800E12D7C /* HintPopUpMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HintPopUpMenuView.h; sourceTree = "<group>"; };
 		DCB309871B21183800E12D7C /* HintPopUpMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HintPopUpMenuView.m; sourceTree = "<group>"; };
 		DCB309891B24CD4B00E12D7C /* MinesweeperNavViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MinesweeperNavViewController.h; sourceTree = "<group>"; };
 		DCB3098A1B24CD4B00E12D7C /* MinesweeperNavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MinesweeperNavViewController.m; sourceTree = "<group>"; };
+		DCB3098C1B278B4A00E12D7C /* GameStats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameStats.h; sourceTree = "<group>"; };
+		DCB3098D1B278B4A00E12D7C /* GameStats.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameStats.m; sourceTree = "<group>"; };
 		DCB831D91AE8C904008BCF6F /* Minesweeper.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Minesweeper.xcdatamodel; sourceTree = "<group>"; };
 		DCB831EA1AECEB5D008BCF6F /* StatsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatsTableViewController.h; sourceTree = "<group>"; };
 		DCB831EB1AECEB5D008BCF6F /* StatsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatsTableViewController.m; sourceTree = "<group>"; };
 		DCB831ED1AEDF6EB008BCF6F /* DifficultyTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DifficultyTableViewController.h; sourceTree = "<group>"; };
 		DCB831EE1AEDF6EB008BCF6F /* DifficultyTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DifficultyTableViewController.m; sourceTree = "<group>"; };
-		DCB831F01AEF32AE008BCF6F /* GameStats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameStats.h; sourceTree = "<group>"; };
-		DCB831F11AEF32AE008BCF6F /* GameStats.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameStats.m; sourceTree = "<group>"; };
 		DCB831F31AEF8646008BCF6F /* StatsDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatsDetailCell.h; sourceTree = "<group>"; };
 		DCB831F41AEF8646008BCF6F /* StatsDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatsDetailCell.m; sourceTree = "<group>"; };
 		DCD7881E1ACB7FCD00798707 /* MainWindowViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainWindowViewController.h; sourceTree = "<group>"; };
 		DCD7881F1ACB7FCD00798707 /* MainWindowViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainWindowViewController.m; sourceTree = "<group>"; };
+		DCDB2E0B1B39267400D8F526 /* HintsPopUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HintsPopUpViewController.h; sourceTree = "<group>"; };
+		DCDB2E0C1B39267400D8F526 /* HintsPopUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HintsPopUpViewController.m; sourceTree = "<group>"; };
+		DCDB2E0E1B3A14F000D8F526 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		DCDCD9531ABA935A009B5836 /* Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cell.h; sourceTree = "<group>"; };
 		DCDCD9541ABA935A009B5836 /* Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Cell.m; sourceTree = "<group>"; };
 		DCDCD9561ABAA674009B5836 /* GameBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameBoard.h; sourceTree = "<group>"; };
@@ -93,6 +106,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DCDB2E0F1B3A14F000D8F526 /* Security.framework in Frameworks */,
+				DC1D73861B328BE3007482A8 /* StoreKit.framework in Frameworks */,
 				DC646D151ABE543900648CE3 /* iAd.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -110,6 +125,8 @@
 		DC4BFB211AAE3F880062B9B2 = {
 			isa = PBXGroup;
 			children = (
+				DCDB2E0E1B3A14F000D8F526 /* Security.framework */,
+				DC1D73851B328BE3007482A8 /* StoreKit.framework */,
 				DC646D141ABE543900648CE3 /* iAd.framework */,
 				DC4BFB2C1AAE3F880062B9B2 /* Minesweeper */,
 				DC4BFB491AAE3F880062B9B2 /* MinesweeperTests */,
@@ -171,8 +188,12 @@
 		DCAF084C1AD61009004ECD40 /* model */ = {
 			isa = PBXGroup;
 			children = (
-				DCB831F01AEF32AE008BCF6F /* GameStats.h */,
-				DCB831F11AEF32AE008BCF6F /* GameStats.m */,
+				DC1D73871B328D91007482A8 /* IAPHelper.h */,
+				DC1D73881B328D91007482A8 /* IAPHelper.m */,
+				DC1D738A1B33AC52007482A8 /* MinesweeperIAPHelper.h */,
+				DC1D738B1B33AC52007482A8 /* MinesweeperIAPHelper.m */,
+				DCB3098C1B278B4A00E12D7C /* GameStats.h */,
+				DCB3098D1B278B4A00E12D7C /* GameStats.m */,
 				DCB831D81AE8C904008BCF6F /* Minesweeper.xcdatamodeld */,
 				DC1AE58A1AD35FBD003BDA1E /* Settings.bundle */,
 				DCDCD9531ABA935A009B5836 /* Cell.h */,
@@ -191,8 +212,6 @@
 				DCB309861B21183800E12D7C /* HintPopUpMenuView.h */,
 				DCB309871B21183800E12D7C /* HintPopUpMenuView.m */,
 				DC4BFB3A1AAE3F880062B9B2 /* Main.storyboard */,
-				DC6860511B1A942400424D22 /* CellButton.h */,
-				DC6860521B1A942400424D22 /* CellButton.m */,
 				DCB831F31AEF8646008BCF6F /* StatsDetailCell.h */,
 				DCB831F41AEF8646008BCF6F /* StatsDetailCell.m */,
 			);
@@ -202,6 +221,10 @@
 		DCAF084E1AD61064004ECD40 /* controller */ = {
 			isa = PBXGroup;
 			children = (
+				DCDB2E0B1B39267400D8F526 /* HintsPopUpViewController.h */,
+				DCDB2E0C1B39267400D8F526 /* HintsPopUpViewController.m */,
+				DC1D738D1B33C2A5007482A8 /* HintsInfoViewController.h */,
+				DC1D738E1B33C2A5007482A8 /* HintsInfoViewController.m */,
 				DCB309891B24CD4B00E12D7C /* MinesweeperNavViewController.h */,
 				DCB3098A1B24CD4B00E12D7C /* MinesweeperNavViewController.m */,
 				DCD7881E1ACB7FCD00798707 /* MainWindowViewController.h */,
@@ -323,17 +346,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				DCDCD9551ABA935A009B5836 /* Cell.m in Sources */,
-				DCB831F21AEF32AE008BCF6F /* GameStats.m in Sources */,
 				DC60AEDA1B1E75FD008EDBB8 /* AdBannerDelegate.m in Sources */,
 				DC4BFB331AAE3F880062B9B2 /* AppDelegate.m in Sources */,
+				DC1D738C1B33AC52007482A8 /* MinesweeperIAPHelper.m in Sources */,
 				DC52B5B11ADA06B100601465 /* SettingsTableViewController.m in Sources */,
+				DC1D738F1B33C2A5007482A8 /* HintsInfoViewController.m in Sources */,
+				DCB3098E1B278B4A00E12D7C /* GameStats.m in Sources */,
 				DCB309881B21183800E12D7C /* HintPopUpMenuView.m in Sources */,
 				DCB831DA1AE8C904008BCF6F /* Minesweeper.xcdatamodeld in Sources */,
-				DC6860531B1A942400424D22 /* CellButton.m in Sources */,
 				DC1AE5891ACE1797003BDA1E /* MenuTabBarViewController.m in Sources */,
 				DCDCD9581ABAA674009B5836 /* GameBoard.m in Sources */,
 				DCB831EC1AECEB5D008BCF6F /* StatsTableViewController.m in Sources */,
+				DC1D73891B328D91007482A8 /* IAPHelper.m in Sources */,
 				DCD788201ACB7FCD00798707 /* MainWindowViewController.m in Sources */,
+				DCDB2E0D1B39267400D8F526 /* HintsPopUpViewController.m in Sources */,
 				DCB831F51AEF8646008BCF6F /* StatsDetailCell.m in Sources */,
 				DCB831EF1AEDF6EB008BCF6F /* DifficultyTableViewController.m in Sources */,
 				DC1D1E841AE4951700236D62 /* DataManager.m in Sources */,
@@ -463,6 +489,7 @@
 				INFOPLIST_FILE = Minesweeper/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "1664ab76-38be-4cae-b98b-2dbdf91f0417";
 			};
 			name = Debug;
 		};
@@ -473,6 +500,7 @@
 				INFOPLIST_FILE = Minesweeper/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "1664ab76-38be-4cae-b98b-2dbdf91f0417";
 			};
 			name = Release;
 		};

@@ -54,6 +54,9 @@
     return gameBoard;
 }
 
+
+
+//###############################Needs to be fixed?################################
 -(BOOL)saveStats: (NSDictionary *)stats{
 //    NSLog(@"%@", stats);
     
@@ -114,12 +117,14 @@
     [statsObject setValue:[NSNumber numberWithInteger:numInt] forKey:keyGamesPlayed];
     
     //2. exploration percentage
-    float objectFloat = [[statsObject valueForKey:keyExplorationPercent]floatValue];
+    double objectDouble = [[statsObject valueForKey:keyExplorePercentSum]doubleValue];
     float statsFloat = [[stats valueForKey:keyPercentDone]floatValue];
-    if (objectFloat) {
-        statsFloat = (objectFloat + statsFloat) / 2;
-    }
+    float objectFloat;
+        objectDouble = objectDouble+statsFloat;
+        statsFloat = (float)objectDouble/numInt;
+    [statsObject setValue:[NSNumber numberWithDouble:objectDouble] forKey:keyExplorePercentSum];
     [statsObject setValue:[NSNumber numberWithFloat:statsFloat] forKey:keyExplorationPercent];
+
     
     //3. Game Won
     if ([[stats valueForKey:keyGameWon]boolValue]) {
@@ -211,6 +216,8 @@
     return NO;
 }
 
+
+//########################does this need to be fixed?####################
 -(NSArray*)getAllStats{
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     NSManagedObjectContext *context = [appDelegate managedObjectContext];
@@ -224,7 +231,7 @@
     }
     
     if ([objects count] < 3) {
-        NSArray *diffArray = [NSArray arrayWithObjects:@"Easy", @"Normal", @"Hard", nil];
+        NSArray *diffArray = @[@"Easy", @"Normal", @"Hard"];
         NSPredicate *predicate;
         for (int i = 0; i < 3; i++) {
             request = [[NSFetchRequest alloc]initWithEntityName:@"GameStats"];
@@ -259,18 +266,18 @@
     return objects;
 }
 
--(BOOL)statsDocReady{
-    if (self.document.documentState == UIDocumentStateNormal) {
-        [self.document managedObjectContext];
-    }
-    
-    return NO;
-}
+//-(BOOL)statsDocReady{
+//    if (self.document.documentState == UIDocumentStateNormal) {
+//        [self.document managedObjectContext];
+//    }
+//    
+//    return NO;
+//}
 
--(BOOL)retrieveStatsEntityArray{
-    //needs to be implemented
-    return NO;
-}
+//-(BOOL)retrieveStatsEntityArray{
+//    //needs to be implemented
+//    return NO;
+//}
 
 -(NSString *)gameBoardDataPath{
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
@@ -301,34 +308,34 @@
     return dataFile;
 }
 
--(NSString *)statsDataPath{
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-    NSString *dataFile = [paths[0]stringByAppendingPathComponent:@"DataStorage"];
-    
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    
-    if (![fileManager fileExistsAtPath:dataFile]) {
-        NSLog(@"Directory needed to be created");
-        NSError *error;
-        BOOL success = [fileManager createDirectoryAtPath:dataFile withIntermediateDirectories:YES attributes:nil error:&error];
-        if (!success) {
-            NSLog(@"Did not create directory file: %@", [error localizedDescription]);
-        }
-    }
-    
-    dataFile = [dataFile stringByAppendingPathComponent:@"StatsStorage"];
-    
-    if (![fileManager fileExistsAtPath:dataFile]) {
-        NSLog(@"File needed to be created");
-        NSError *error;
-        BOOL success = [fileManager createFileAtPath:dataFile contents:nil attributes:nil];
-        if (!success) {
-            NSLog(@"Did not create game file: %@", [error localizedDescription]);
-        }
-    }
-    
-    return dataFile;
-}
+//-(NSString *)statsDataPath{
+//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+//    NSString *dataFile = [paths[0]stringByAppendingPathComponent:@"DataStorage"];
+//    
+//    NSFileManager *fileManager = [NSFileManager defaultManager];
+//    
+//    if (![fileManager fileExistsAtPath:dataFile]) {
+//        NSLog(@"Directory needed to be created");
+//        NSError *error;
+//        BOOL success = [fileManager createDirectoryAtPath:dataFile withIntermediateDirectories:YES attributes:nil error:&error];
+//        if (!success) {
+//            NSLog(@"Did not create directory file: %@", [error localizedDescription]);
+//        }
+//    }
+//    
+//    dataFile = [dataFile stringByAppendingPathComponent:@"StatsStorage"];
+//    
+//    if (![fileManager fileExistsAtPath:dataFile]) {
+//        NSLog(@"File needed to be created");
+//        NSError *error;
+//        BOOL success = [fileManager createFileAtPath:dataFile contents:nil attributes:nil];
+//        if (!success) {
+//            NSLog(@"Did not create game file: %@", [error localizedDescription]);
+//        }
+//    }
+//    
+//    return dataFile;
+//}
 
 
 @end

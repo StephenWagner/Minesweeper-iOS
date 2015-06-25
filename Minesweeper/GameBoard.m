@@ -10,10 +10,8 @@
 #import "Constants.h"
 
 @interface GameBoard()
-
 @property (nonatomic) BOOL firstClick;
 @property (nonatomic) BOOL speedyOpenOk;
-
 @end
 
 
@@ -73,7 +71,6 @@
     self.totalColumns = numCol;
     self.totalRows = numRows;
     
-    self.hintsRemaining = 3;
     self.firstClick = YES;
     self.speedyOpenOk = YES;
     self.gameOver = NO;
@@ -112,19 +109,32 @@
  *            Column position, as in array[row][column]. This is the x-position cell on a screen (zero-based).
  * */
 -(void) toggleFlagWithRow: (NSInteger)row andColumn: (NSInteger)col{
+    Cell *cell = self.board[row][col];
+
+    if (!cell.hidden) {
+        return;
+    }
     
-    if ([self.board[row][col] hidden]) {
-        BOOL current = [self.board[row][col] flagged];
+    if (cell.flagged) {
+        //make the cell not flagged
+        [cell setImage:[UIImage imageNamed:@"CellHidden"]];
+        self.totFlags--;
         
-        if (current) {
-            [self.board[row][col] setImage:[UIImage imageNamed:@"CellHidden"]];
-            self.totFlags--;
-        }else{
-            [self.board[row][col] setImage:[UIImage imageNamed:@"CellFlagged"]];
-            self.totFlags++;
+        if (self.useQuestionMarks) {
+            //question mark the cell
+            cell.label = @"?";
+            cell.questionMarked = YES;
         }
+        cell.flagged = NO;
+
+    }else if (cell.questionMarked){     //if the cell is question marked, undo the question mark
+        cell.label = @"";
+        cell.questionMarked = NO;
         
-        [self.board[row][col] setFlagged:!current];        
+    }else{      //otherwise, the cell is not flagged or question marked, so it should be flagged
+        [cell setImage:[UIImage imageNamed:@"CellFlagged"]];
+        self.totFlags++;
+        cell.flagged = YES;
     }
 }
 
@@ -212,16 +222,21 @@
      * 	it has the same number of flags close to it.
      */
     
-    
     if ([self outOfBoundsWithRow:row andCol:col])
         return YES;
     
+    Cell *cell = self.board[row][col];
+
+    //if the cell is flagged or question marked, don't reveal it
+    if (cell.flagged || cell.questionMarked)
+        return YES;
+
     if (self.firstClick)
         [self firstClickWithRow:row andCol:col];
     
     //check user defaults
     // 4. it is not hidden, it has a number of mines close to it, it has the same number of flags close to it.
-    if ([[NSUserDefaults standardUserDefaults]boolForKey:keyQuickOpen] && self.speedyOpenOk && ![self.board[row][col] hidden] && [self.board[row][col] minesClose] > 0 && [self sameNumberOfFlagsWithRow:row andCol:col]) {
+    if ([[NSUserDefaults standardUserDefaults]boolForKey:keyQuickOpen] && self.speedyOpenOk && !cell.hidden && cell.minesClose > 0 && [self sameNumberOfFlagsWithRow:row andCol:col]) {
         self.speedyOpenOk = NO;
         if ([self speedyOpenerWithRow:row andCol:col]) {
             self.speedyOpenOk = YES;
@@ -234,17 +249,14 @@
 
     
     // 0. it is not hidden
-    if (![self.board[row][col] hidden])
+    if (!cell.hidden)
         return true;
     
     // 1. it is hidden, it is not mined, it has 0 mines close to it,
     // recursively reveal all others like it
-    if (![self.board[row][col] mined] && [self.board[row][col] minesClose] == 0) {
-        [self.board[row][col] setHidden:NO];
-        
-        //################################should be moved to the Controller
-        [self.board[row][col] setImage:[UIImage imageNamed:@"CellRevealed"]];
-        //################################
+    if (!cell.mined && cell.minesClose == 0) {
+        cell.hidden = NO;
+        cell.image = [UIImage imageNamed:@"CellRevealed"];
 
         [self revealWithRow:row-1 andCol:col-1];    // above and left
         [self revealWithRow:row-1 andCol:col];      // above
@@ -258,19 +270,15 @@
     }
     
     // 2. it is hidden, it has one or more mines close to it
-    if ([self.board[row][col] minesClose] > 0) {
-        [self.board[row][col] setHidden:NO];
-        
-        //################################should be moved to the Controller
-        [self.board[row][col] setButtonTitle:[NSString stringWithFormat:@"%d", [self.board[row][col] minesClose]]];
-        [self.board[row][col] setImage:[UIImage imageNamed:@"CellRevealed"]];
-        //################################
-
+    if (cell.minesClose > 0) {
+        cell.hidden = NO;
+        cell.label = [NSString stringWithFormat:@"%d", [self.board[row][col] minesClose]];
+        cell.image = [UIImage imageNamed:@"CellRevealed"];
         return YES;
     }
     
     // 3. it is hidden, it has a mine in it
-    if ([self.board[row][col] mined] && ![self.board[row][col] flagged]) {
+    if (cell.mined && !cell.flagged) {
         [self gameOverWithRow:row andCol:col];
         return NO;
     }
@@ -351,13 +359,12 @@
  *      If no hints are remaining, nil will be returned.
  *      If cell is hidden or a hint is unable to be given, the same cell will be returned as passed in
  */
--(Cell*) getSurroundingEmptySpaceHintUsingRow:(NSInteger)row andCol:(NSInteger)col{
-    if (!self.hintsRemaining) {
+-(Cell*) getSurroundingEmptySpaceHintUsingRow:(NSInteger)row col:(NSInteger)col andHintsRemaining:(NSInteger)hintsRemaining {
+    if (!hintsRemaining) {
         return nil;
     }
 
     int lowestMinesClose = 9;
-    Boolean changed = false;
     
     Cell *cellForHint = self.board[row][col];
     Cell *cellToCheck;
@@ -378,16 +385,12 @@
                     if (cellToCheck.hidden && !cellToCheck.mined && cellToCheck.minesClose <= lowestMinesClose) {
                         lowestMinesClose = cellToCheck.minesClose;
                         rtnCell = cellToCheck;
-                        changed = YES;
                     }
                 }
             }
         }
         
     }
-    
-    if (changed)
-        self.hintsRemaining--;
     
     return rtnCell;
 }
@@ -402,14 +405,13 @@
  *      If no hints are remaining, nil will be returned.
  *      If cell is hidden or unable to be given, the same cell will be returned as passed in
  */
--(Cell*)getSurroundingMinedSpaceHintUsingRow:(NSInteger)row andCol:(NSInteger)col{
-    if (!self.hintsRemaining) {
+-(Cell*)getSurroundingMinedSpaceHintUsingRow:(NSInteger)row col:(NSInteger)col andHintsRemaining:(NSInteger)hintsRemaining {
+    if (!hintsRemaining) {
         return nil;
     }
     
     int lowestMinesClose = 9;
     int curCellMinesClose = 9;
-    Boolean changed = false;
     
     Cell *cellForHint = self.board[row][col];
     Cell *cellToCheck;
@@ -428,24 +430,20 @@
                     
                     
                     // if cell MINED, and the number of mines close is the lowest, set the
-                    if (cellToCheck.hidden && cellToCheck.mined) {
+                    if (cellToCheck.hidden && cellToCheck.mined && !cellToCheck.flagged) {
                         curCellMinesClose = [self minesCloseWithRow:i andCol:j];
                         
                         //if the number of mines close is the lowest, set the
                         if (curCellMinesClose <= lowestMinesClose) {
                             lowestMinesClose = cellToCheck.minesClose;
                             rtnCell = cellToCheck;
-                            changed = YES;
                         }
                     }
                 }
             }
         }
     }
-    
-    if (changed)
-        self.hintsRemaining--;
-    
+        
     return rtnCell;
 }
 
@@ -489,20 +487,13 @@
 -(void)gameOverWithRow: (NSInteger)row andCol: (NSInteger)col{
     self.exploded = self.board[row][col];
     [self.board[row][col] setBlown:YES];
-    
-    //################################should be moved to the controller
     [self.board[row][col] setImage:[UIImage imageNamed:@"CellExploded"]];
-    //################################
-
     self.gameOver = YES;
     
-    //################################possibly this whole thing should be moved to the controller
     for (int i = 0; i < self.totalRows; i++)
         for (int j = 0; j < self.totalColumns; j++) {
             if ([self.board[i][j] flagged] && ![self.board[i][j] mined]) {
-                //################################should be moved to the controller
                 [self.board[i][j] setImage:[UIImage imageNamed:@"CellFlaggedIncorrectly"]];
-                //################################
             }
         }
 
@@ -554,7 +545,7 @@
     
     self.startTime = [NSDate timeIntervalSinceReferenceDate];
     self.timer = [NSTimer scheduledTimerWithTimeInterval:.2 target:self selector:@selector(addTime:) userInfo:MAINTIMER repeats:YES];
-    [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+    [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
 }
 
 -(void)stopTimer{
@@ -586,7 +577,6 @@
     [encoder encodeBool:self.firstClick forKey:keyFirstClick];
     [encoder encodeBool:self.speedyOpenOk forKey:keySpeedyOpenOK];
     [encoder encodeDouble:self.elapsedTime forKey:keyElapsedTime];
-    [encoder encodeInteger:self.hintsRemaining forKey:keyHintsRemain];
 }
 
 - (id)initWithCoder:(NSCoder *)decoder{
@@ -601,7 +591,6 @@
         self.exploded = [decoder decodeObjectForKey:keyExploded];
         self.elapsedTime = [decoder decodeDoubleForKey:keyElapsedTime];
         self.time = (NSInteger)floor(self.elapsedTime);
-        self.hintsRemaining = [decoder decodeIntegerForKey:keyHintsRemain];
         self.board = [decoder decodeObjectForKey:keyBoard];
         
         self.time = (NSInteger)floor(self.elapsedTime);

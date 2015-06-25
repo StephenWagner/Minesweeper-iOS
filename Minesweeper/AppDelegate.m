@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "MinesweeperIAPHelper.h"
 
 @interface AppDelegate ()
 
@@ -19,6 +20,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    [MinesweeperIAPHelper sharedInstance];
     return YES;
 }
 

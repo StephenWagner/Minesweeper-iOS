@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *difficultyLabel;
 @property (weak, nonatomic) IBOutlet UISwitch *vibrateSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *quickOpenSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *useQuestionMarksSwitch;
 @property (weak, nonatomic) IBOutlet UISlider *pressDurationSlider;
 
 @end
@@ -26,6 +27,7 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     self.vibrateSwitch.on = [defaults boolForKey:keyVibrate];
     self.quickOpenSwitch.on = [defaults boolForKey:keyQuickOpen];
+    self.useQuestionMarksSwitch.on = [defaults boolForKey:keyUseQMarks];
     self.pressDurationSlider.value = [defaults floatForKey:keyPressLength];
     
 }
@@ -64,6 +66,8 @@
         [defaults setBool:self.vibrateSwitch.on forKey:keyVibrate];
     }else if (sender == self.quickOpenSwitch) {
         [defaults setBool:self.quickOpenSwitch.on forKey:keyQuickOpen];
+    }else if (sender == self.useQuestionMarksSwitch){
+        [defaults setBool:self.useQuestionMarksSwitch.on forKey:keyUseQMarks];
     }
     
     [defaults synchronize];

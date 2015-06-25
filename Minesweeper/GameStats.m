@@ -2,7 +2,7 @@
 //  GameStats.m
 //  Minesweeper
 //
-//  Created by Stephen Wagner on 4/27/15.
+//  Created by Stephen Wagner on 6/9/15.
 //  Copyright (c) 2015 Stephen Wagner. All rights reserved.
 //
 
@@ -11,20 +11,21 @@
 
 @implementation GameStats
 
-@dynamic gamesWon;
-@dynamic gamesLost;
-@dynamic winPercentage;
 @dynamic averageWinTime;
-@dynamic longestWinStreak;
-@dynamic longestLoseStreak;
-@dynamic explorationPercentage;
-@dynamic currentWinStreak;
 @dynamic currentLoseStreak;
+@dynamic currentWinStreak;
 @dynamic difficulty;
-@dynamic sortOrder;
-@dynamic gamesPlayed;
+@dynamic explorationPercentage;
+@dynamic explorationPercentageSum;
 @dynamic fastestWin;
+@dynamic gamesLost;
+@dynamic gamesPlayed;
+@dynamic gamesWon;
+@dynamic longestLoseStreak;
+@dynamic longestWinStreak;
 @dynamic secondFastestWin;
+@dynamic sortOrder;
 @dynamic thirdFastestWin;
+@dynamic winPercentage;
 
 @end

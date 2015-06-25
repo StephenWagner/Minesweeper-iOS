@@ -25,10 +25,11 @@
         self.mined = NO;
         self.hidden = YES;
         self.flagged = NO;
+        self.questionMarked = NO;
         self.minesClose = 0;
         self.blown = NO;
         self.image = [UIImage imageNamed:imgName];
-        self.buttonTitle = @"";
+        self.label = @"";
         self.row = row;
         self.col = col;
     }
@@ -53,7 +54,7 @@
     [encoder encodeBool:self.blown forKey:keyBlown];
     [encoder encodeInt:self.minesClose forKey:keyMinesClose];
     [encoder encodeObject:UIImagePNGRepresentation(self.image) forKey:keyImage];
-    [encoder encodeObject:self.buttonTitle forKey:keyButtonTitle];
+    [encoder encodeObject:self.label forKey:keyCellLabel];
     [encoder encodeInteger:self.row forKey:keyRow];
     [encoder encodeInteger:self.col forKey:keyCol];
 }
@@ -77,7 +78,7 @@
         self.blown = [decoder decodeBoolForKey:keyBlown];
         self.minesClose = [decoder decodeIntForKey:keyMinesClose];
         self.image = [UIImage imageWithData:[decoder decodeObjectForKey:keyImage]];
-        self.buttonTitle = [decoder decodeObjectForKey:keyButtonTitle];
+        self.label = [decoder decodeObjectForKey:keyCellLabel];
         self.row = [decoder decodeIntegerForKey:keyRow];
         self.col = [decoder decodeIntegerForKey:keyCol];
     }

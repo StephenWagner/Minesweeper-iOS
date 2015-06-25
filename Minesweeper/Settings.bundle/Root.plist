@@ -6,7 +6,7 @@
 	<array>
 		<dict>
 			<key>Title</key>
-			<string></string>
+			<string>General Settings</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>
@@ -66,6 +66,16 @@
 		</dict>
 		<dict>
 			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>Question Marks</string>
+			<key>Key</key>
+			<string>useQuestionMarks</string>
+			<key>DefaultValue</key>
+			<false/>
+		</dict>
+		<dict>
+			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 			<key>Title</key>
 			<string>Press Duration</string>
@@ -81,6 +91,12 @@
 			<real>0.1</real>
 			<key>MaximumValue</key>
 			<real>0.7</real>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>Hints Remaining</string>
 		</dict>
 	</array>
 	<key>StringsTable</key>

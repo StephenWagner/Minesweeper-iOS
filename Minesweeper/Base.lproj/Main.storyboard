@@ -23,6 +23,12 @@
                                     <outlet property="delegate" destination="vXZ-lx-hvc" id="Evb-9Y-MwG"/>
                                 </connections>
                             </adBannerView>
+                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Uss-lI-9Qt">
+                                <rect key="frame" x="0.0" y="57" width="600" height="486"/>
+                                <connections>
+                                    <segue destination="THl-ZT-xMF" kind="embed" id="Ohd-Im-0Et"/>
+                                </connections>
+                            </containerView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Aw3-VR-m3N">
                                 <rect key="frame" x="0.0" y="64" width="600" height="486"/>
                                 <gestureRecognizers/>
@@ -58,6 +64,7 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="y3w-MW-Vku">
                         <nil key="title"/>
+                        <barButtonItem key="backBarButtonItem" title="Gameplay" id="uNc-g7-YOn"/>
                         <barButtonItem key="leftBarButtonItem" title="Menu" id="RTG-P3-442">
                             <connections>
                                 <segue destination="spG-SR-bUq" kind="show" identifier="MenuSegue" id="0II-28-thl"/>
@@ -67,7 +74,7 @@
                             <rect key="frame" x="211" y="5.5" width="178" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IMO-dZ-J0k">
+                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IMO-dZ-J0k">
                                     <rect key="frame" x="73" y="-1" width="34" height="29"/>
                                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                     <state key="normal" title="😊" backgroundImage="CellHidden">
@@ -95,17 +102,18 @@
                         </view>
                         <barButtonItem key="rightBarButtonItem" title="Hint" id="0FO-6d-q9J">
                             <connections>
-                                <action selector="pressedHintButton:" destination="vXZ-lx-hvc" id="YgB-TH-58X"/>
+                                <action selector="pressedHintMenuButton:" destination="vXZ-lx-hvc" id="dZX-Fx-Syn"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <connections>
-                        <outlet property="StartNewGameButton" destination="IMO-dZ-J0k" id="wsY-VP-w9L"/>
                         <outlet property="adBanner" destination="WRC-VU-PKa" id="0yt-gE-FWw"/>
                         <outlet property="hintBarButton" destination="0FO-6d-q9J" id="EQJ-9I-WUb"/>
+                        <outlet property="hintVCContainer" destination="Uss-lI-9Qt" id="cqc-G0-4If"/>
                         <outlet property="numberOfMinesLabel" destination="HED-69-pgM" id="KiG-15-sSl"/>
                         <outlet property="scrollView" destination="Aw3-VR-m3N" id="IYD-AQ-b7q"/>
+                        <outlet property="startNewGameButton" destination="IMO-dZ-J0k" id="eki-U5-KJf"/>
                         <outlet property="timerLabel" destination="gDF-vS-mXG" id="zui-wU-yoL"/>
                     </connections>
                 </viewController>
@@ -202,6 +210,31 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="Idr-4B-aiC">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Idr-4B-aiC" id="AJg-0a-5gf">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Question Marks" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f35-1x-hX4">
+                                                    <rect key="frame" x="8" y="11" width="121" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="niu-a7-Deb">
+                                                    <rect key="frame" x="543" y="8" width="51" height="31"/>
+                                                    <connections>
+                                                        <action selector="toggleSwitch:" destination="QMp-LP-hX5" eventType="valueChanged" id="zPW-Qm-tyE"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="niu-a7-Deb" firstAttribute="top" secondItem="AJg-0a-5gf" secondAttribute="topMargin" id="H4J-G4-1uI"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="niu-a7-Deb" secondAttribute="bottom" constant="-4" id="cwx-Q9-fF0"/>
+                                                <constraint firstItem="niu-a7-Deb" firstAttribute="trailing" secondItem="AJg-0a-5gf" secondAttribute="trailingMargin" id="zbw-ng-k0B"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                             <tableViewSection headerTitle="PRESS DURATION" id="N1S-2I-8R7">
@@ -240,6 +273,7 @@
                         <outlet property="difficultyLabel" destination="bKl-Vu-ZzU" id="BOU-HM-pEJ"/>
                         <outlet property="pressDurationSlider" destination="gp3-XI-OrC" id="1GX-TM-fwO"/>
                         <outlet property="quickOpenSwitch" destination="w7z-aF-oDa" id="6Bk-Qb-RCa"/>
+                        <outlet property="useQuestionMarksSwitch" destination="niu-a7-Deb" id="50j-XQ-XnY"/>
                         <outlet property="vibrateSwitch" destination="0mT-YR-idR" id="mVL-9k-oTz"/>
                     </connections>
                 </tableViewController>
@@ -543,24 +577,45 @@
             <point key="canvasLocation" x="2890" y="88"/>
         </scene>
         <!--Hints-->
-        <scene sceneID="K4r-oD-ceu">
+        <scene sceneID="CYk-dn-SOv">
             <objects>
-                <viewController id="26d-4m-cZJ" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="KJ3-AH-3Rd"/>
-                        <viewControllerLayoutGuide type="bottom" id="kPr-4H-gGu"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="O73-yG-Own">
+                <tableViewController id="Afe-fC-fvW" customClass="HintsInfoViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="8LB-Xg-h8s">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="Hints" id="Bn7-zT-Ecf"/>
-                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="nkT-Px-9WT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" textLabel="XNo-vv-wBv" detailTextLabel="z0m-eo-JWN" style="IBUITableViewCellStyleSubtitle" id="vvl-O0-b76">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vvl-O0-b76" id="RsT-RK-b5V">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XNo-vv-wBv">
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="z0m-eo-JWN">
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Afe-fC-fvW" id="8mq-BZ-YdD"/>
+                            <outlet property="delegate" destination="Afe-fC-fvW" id="lBj-W2-q9D"/>
+                        </connections>
+                    </tableView>
+                    <tabBarItem key="tabBarItem" title="Hints" id="iHo-dA-8Eq"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PRu-p3-wxx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2890" y="820"/>
+            <point key="canvasLocation" x="2890" y="825"/>
         </scene>
         <!--Menu Tab Bar View Controller-->
         <scene sceneID="BPj-tu-LvS">
@@ -576,7 +631,7 @@
                     <connections>
                         <segue destination="QMp-LP-hX5" kind="relationship" relationship="viewControllers" id="yjn-Yw-FJB"/>
                         <segue destination="g74-VK-gBM" kind="relationship" relationship="viewControllers" id="Ngf-I0-7Kz"/>
-                        <segue destination="26d-4m-cZJ" kind="relationship" relationship="viewControllers" id="53Q-Yy-nka"/>
+                        <segue destination="Afe-fC-fvW" kind="relationship" relationship="viewControllers" id="ICk-P6-c29"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4HW-46-Du3" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -605,9 +660,80 @@
             </objects>
             <point key="canvasLocation" x="469" y="339"/>
         </scene>
+        <!--Hints Pop Up View Controller-->
+        <scene sceneID="ZRp-CS-BxL">
+            <objects>
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="THl-ZT-xMF" customClass="HintsPopUpViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="HI2-jZ-hnG"/>
+                        <viewControllerLayoutGuide type="bottom" id="NFl-b5-njV"/>
+                    </layoutGuides>
+                    <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="xbO-F5-zuI">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="486"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view alpha="0.5" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oc7-KL-fdI">
+                                <rect key="frame" x="163" y="58" width="283" height="315"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Hints Remaining" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6qk-oG-dls">
+                                        <rect key="frame" x="66" y="8" width="143" height="21"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="18"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wlD-hB-djn">
+                                        <rect key="frame" x="196" y="53" width="60" height="60"/>
+                                        <state key="normal" image="CellMinedSpaceHint">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K3T-mv-qnf">
+                                        <rect key="frame" x="104" y="238" width="67" height="30"/>
+                                        <state key="normal" title="Buy Hints"/>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Remaining: 20" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X6W-mO-mF5">
+                                        <rect key="frame" x="8" y="72" width="157" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Remaining: 20" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ebr-Ht-lKf">
+                                        <rect key="frame" x="26" y="167" width="133" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ihI-7Z-1qZ">
+                                        <rect key="frame" x="196" y="148" width="60" height="60"/>
+                                        <state key="normal" image="CellEmptySpaceHint">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <toolbarItems/>
+                    <connections>
+                        <outlet property="buyHintsBtn" destination="K3T-mv-qnf" id="UaE-J3-QR8"/>
+                        <outlet property="emptyHintsLabel" destination="ebr-Ht-lKf" id="cXh-RL-0Js"/>
+                        <outlet property="emptySpaceHintsBtn" destination="ihI-7Z-1qZ" id="E3p-Iz-oFu"/>
+                        <outlet property="menuView" destination="oc7-KL-fdI" id="mbU-1Z-bQj"/>
+                        <outlet property="minedHintsLabel" destination="X6W-mO-mF5" id="a9d-UW-qFt"/>
+                        <outlet property="minedSpaceHintBtn" destination="wlD-hB-djn" id="2RX-Kl-iXC"/>
+                        <outlet property="titleLabel" destination="6qk-oG-dls" id="Vh3-n6-m0P"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1X0-VG-RLu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1254" y="1071"/>
+        </scene>
     </scenes>
     <resources>
+        <image name="CellEmptySpaceHint" width="60" height="60"/>
         <image name="CellHidden" width="60" height="60"/>
+        <image name="CellMinedSpaceHint" width="60" height="60"/>
         <image name="Settings" width="32" height="32"/>
         <image name="Stats" width="32" height="32"/>
     </resources>
